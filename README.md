@@ -8,12 +8,30 @@ standards so every audit behaves the same way.
 
 ## Install
 
+### Claude Code
+
 ```
 /plugin marketplace add lochinbekdev/skills
 /plugin install lochinbekdev-security@lochinbekdev
 ```
 
 Then run a skill, e.g. `/audit-backend`, or just ask the agent to "audit this backend".
+
+### OpenAI Codex / other agents
+
+The skills are plain `SKILL.md` instructions, so any agent can use them. Each skill
+ships an `agents/openai.yaml` interface descriptor. Link them into your local agent
+skill directories (`~/.agents/skills` and `~/.claude/skills`) with:
+
+```
+git clone https://github.com/lochinbekdev/skills
+cd skills
+./scripts/link-skills.sh
+```
+
+Each link points back into the repo, so `git pull` keeps the installed skills current.
+Codex then discovers them from `~/.agents/skills`. You can also just point your
+`AGENTS.md` at a skill's `SKILL.md`, or paste it into the conversation.
 
 ## Skills
 
@@ -54,13 +72,17 @@ docs/
   report-standard.md
   test-accounts.md
   write-boundary.md
+scripts/
+  link-skills.sh            # link skills into ~/.agents/skills and ~/.claude/skills
 skills/
   security/
-    audit-backend/SKILL.md
-    audit-access-control/SKILL.md
-    audit-api/SKILL.md
-    audit-uploads/SKILL.md
-    audit-dependencies/SKILL.md
+    audit-backend/
+      SKILL.md
+      agents/openai.yaml    # Codex / OpenAI interface descriptor
+    audit-access-control/{SKILL.md, agents/openai.yaml}
+    audit-api/{SKILL.md, agents/openai.yaml}
+    audit-uploads/{SKILL.md, agents/openai.yaml}
+    audit-dependencies/{SKILL.md, agents/openai.yaml}
 ```
 
 ## Roadmap

@@ -1,0 +1,5 @@
+interface:
+  display_name: "Audit: Backend"
+  short_description: "Authorized, evidence-based backend security audit; recon, grill for scope, then run on go."
+policy:
+  allow_implicit_invocation: true

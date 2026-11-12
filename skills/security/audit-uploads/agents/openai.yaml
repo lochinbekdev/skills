@@ -1,0 +1,5 @@
+interface:
+  display_name: "Audit: Uploads"
+  short_description: "Upload to storage to processing to serving pipeline, archive extraction, download authz."
+policy:
+  allow_implicit_invocation: true

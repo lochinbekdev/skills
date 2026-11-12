@@ -1,0 +1,5 @@
+interface:
+  display_name: "Audit: Dependencies"
+  short_description: "Read-only dependency, lockfile, runtime-version, CI/CD, and secret-exposure review."
+policy:
+  allow_implicit_invocation: true

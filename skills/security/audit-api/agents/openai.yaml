@@ -1,0 +1,5 @@
+interface:
+  display_name: "Audit: API Surface"
+  short_description: "Routes, injection, SSRF, CORS, headers, and business-logic abuse checks."
+policy:
+  allow_implicit_invocation: true
