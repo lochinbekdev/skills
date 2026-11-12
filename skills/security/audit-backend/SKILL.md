@@ -52,6 +52,8 @@ summary must be marked **`PARTIAL AUDIT`**.
    - `audit-api` — routes, input handling, injection, SSRF, CORS, business logic.
    - `audit-uploads` — upload → storage → processing → serving, archive extraction.
    - `audit-dependencies` — dependencies, lockfiles, runtime versions, CI/CD, secrets.
+   - `audit-microservices` — inter-service dependency map and trust-boundary audit (use when the
+     system is multi-service: s2s authn/authz, identity/tenant propagation, SSRF pivots, queues).
    Each returns findings and evidence to fold into the single report; do not duplicate captures.
 6. **Real tests.** Static review alone is insufficient. Run operation-level authz tests and
    full end-to-end workflow runs with A/B and control roles, using matched control/test pairs

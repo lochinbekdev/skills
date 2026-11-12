@@ -9,12 +9,19 @@
   "homepage": "https://github.com/lochinbekdev/skills",
   "repository": "https://github.com/lochinbekdev/skills",
   "license": "MIT",
-  "keywords": ["security", "audit", "pentest", "authorization", "owasp"],
+  "keywords": [
+    "security",
+    "audit",
+    "pentest",
+    "authorization",
+    "owasp"
+  ],
   "skills": [
     "./skills/security/audit-backend",
     "./skills/security/audit-access-control",
     "./skills/security/audit-api",
     "./skills/security/audit-uploads",
-    "./skills/security/audit-dependencies"
+    "./skills/security/audit-dependencies",
+    "./skills/security/audit-microservices"
   ]
 }

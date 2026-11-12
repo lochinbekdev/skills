@@ -42,6 +42,7 @@ Codex then discovers them from `~/.agents/skills`. You can also just point your
 | `audit-api` | Routes, injection, SSRF, CORS, headers, and business-logic abuse. |
 | `audit-uploads` | Upload → storage → processing → serving, archive extraction (zip-slip), download authz. |
 | `audit-dependencies` | Dependencies, lockfiles, runtime versions, CI/CD, and secret exposure (read-only). |
+| `audit-microservices` | Inter-service dependency map and trust-boundary audit: s2s authn/authz, identity/tenant propagation, network exposure, SSRF pivots, queues, shared DBs. |
 
 ## Shared standards (`docs/`)
 
@@ -107,12 +108,14 @@ skills/
     audit-api/{SKILL.md, agents/openai.yaml}
     audit-uploads/{SKILL.md, agents/openai.yaml}
     audit-dependencies/{SKILL.md, agents/openai.yaml}
+    audit-microservices/{SKILL.md, agents/openai.yaml}
 ```
 
 ## Roadmap
 
-- **Next:** `microservice-interdependency` skill — map inter-service dependencies and produce a
-  security report, plus machine-readable export (e.g. SARIF) alongside the Markdown report.
+- **Shipped:** `audit-microservices` — inter-service dependency map and trust-boundary audit,
+  with the standard report and SARIF/JSON export.
+- **Next:** repo tooling (versioning, skill validation) and CI eval cases as the set grows.
 - Repo tooling (versioning, skill validation) once the skill set grows.
 
 ## License
