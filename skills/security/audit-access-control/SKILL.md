@@ -7,7 +7,7 @@ description: Test horizontal, vertical, and cross-tenant authorization on a back
 
 Focused skill for **broken access control**: horizontal (A↔B at the same level), vertical
 (low role → high-role operation), cross-tenant isolation, and protected-field tampering.
-Read first: `references/test-accounts.md`, `references/write-boundary.md`, `references/report-standard.md`, `references/findings-quality.md` (confidence scoring, false-positive challenge, stable IDs).
+Read first: `references/intake.md`, `references/test-accounts.md`, `references/write-boundary.md`, `references/report-standard.md`, `references/findings-quality.md` (confidence scoring, false-positive challenge, stable IDs).
 
 ## How this skill starts
 Follow `references/intake.md`: first inspect the code read-only and map the resources, owners,
@@ -20,12 +20,12 @@ code tracing may proceed before that.
 ## Prerequisite
 Two separate accounts **A** and **B**, both at the system's **lowest authenticated role**,
 plus a separate control account per higher role the workflow needs. Reach each by **normal
-login**; verify real role/permission/tenant via `/me`. If missing, mark dependent tests
+login**; verify real role/permission/tenant via the project's identity endpoint (discover it; it is often not `/me`). If missing, mark dependent tests
 **blocked** and continue read-only code tracing (input → guard → ownership/tenant/permission
 check → sink → response/state).
 
 ## Test sequence (per in-scope resource/flow)
-1. **Identity** — A and B via `/me`: confirm both are lowest-role and sessions are separate.
+1. **Identity** — A and B via the project's identity endpoint (often not `/me` — e.g. `/api/account/profile`; discover the real one): confirm both are lowest-role and sessions are separate.
 2. **Legitimate control** — A → A's object; B → B's object. Establish the operation works and
    the business policy is understood.
 3. **Horizontal** — A's session → B's object; B's session → A's object. Did cross-account

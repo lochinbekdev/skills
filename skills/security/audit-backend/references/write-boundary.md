@@ -8,7 +8,16 @@ project it inspects. These rules are referenced by every security skill.
   `git diff`, `git log`) — read only.
 - Create or update **one** deliverable: the security report (default `SECURITY_AUDIT_REPORT.md`
   at the audited project root, or an agreed path — see `report-standard.md`), plus its parent
-  directories.
+  directories. **If the target must stay untouched (a strictly read-only checkout, someone
+  else's repo, a CI dir), write the report OUTSIDE the target** at an agreed path, and say so.
+- **Read-only framework introspection** that writes nothing — e.g. `php artisan route:list`,
+  `rails routes`, `python manage.py show_urls`, `go doc`. Allowed only if it does not warm
+  caches, compile, or write files/logs; if it would, use a no-write flag or mark the check
+  `blocked`. Prefer it over guessing reachability from code.
+- Prepare small, **inert** test inputs (e.g. an upload fixture) **in memory only** — never on
+  disk — when a check needs one.
+- An agreed machine-readable export (SARIF/JSON) to an agreed path, when the user asked or in
+  CI (see `findings-quality.md`); this is the one permitted second file.
 - Send real HTTP requests to the **agreed** test environment with the **agreed** test
   accounts, within the authorized, reversible scope (see `test-accounts.md`).
 

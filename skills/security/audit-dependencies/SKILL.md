@@ -21,7 +21,9 @@ install/update.** Inspect manifests, lockfiles, and advisories; do not execute p
 
 ## Tooling first (breadth + fresh data)
 Per `references/tooling.md`, widen coverage with tools that are **already installed** and run
-read-only to stdout — `osv-scanner`, `trivy fs`, `npm/pnpm/pip/cargo/composer audit --json`,
+read-only to stdout — `osv-scanner`, `trivy fs`, `npm/pnpm/pip/cargo audit --json`,
+`composer audit --locked --format=json` (**always `--locked`** on a read-only checkout — a
+plain `composer audit` prints "No packages" and exits 0, a silent false-clean),
 `govulncheck`, plus `gitleaks`/`trufflehog` for secrets. **Never install or auto-fix.** For
 per-dependency CVEs, query a **live advisory source** (OSV `api.osv.dev/v1/query`) rather than
 model memory; if no scanner and no network, mark version-specific CVE claims `blocked`.

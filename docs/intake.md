@@ -25,11 +25,13 @@ answer**, worded so "yes" accepts the recommendation:
 ```
 
 Ask only what Phase 1 could not establish. Typical gaps: authorized test environment /
-base URL, in-scope vs out-of-scope hosts/modules, audit window and rate limit, two
-lowest-role accounts **A** and **B** plus any control-role accounts (see
-`test-accounts.md`), identifiable test objects for A and B, and which
-create/update/delete/transition/field actions are authorized and reversible. Do not ask
-again for anything already provided in the conversation.
+base URL, in-scope vs out-of-scope hosts/modules, audit window and rate limit, **outbound
+network consent** (e.g. querying `api.osv.dev` or other advisory sources — see `tooling.md`),
+two lowest-role accounts **A** and **B** plus any control-role accounts and, for cross-tenant
+work, a lowest-role account in a *different* tenant (see `test-accounts.md`), identifiable
+test objects for A and B, any non-account prerequisites (inert file fixtures, a running
+processor/toolchain), and which create/update/delete/transition/field actions are authorized
+and reversible. Do not ask again for anything already provided in the conversation.
 
 ## Phase 3 — Explain the plan
 Once the user answers, restate concisely: which workflows/endpoints will be tested, the
@@ -46,3 +48,16 @@ before testing the changed part.
 A skill that needs no live access or test data — it only reads the repo already in scope —
 runs directly without phases 2–4 (e.g. `audit-dependencies`). It still respects the
 write boundary and reports blocked items where confirmation is genuinely required.
+
+## Static-only engagement (no live env / no accounts / no human)
+A very common case: you have the repo but there is no reachable environment, no test
+accounts, or no human to answer Phase 2. Do **not** stall. Instead:
+1. Still do Phase 1 recon, and **write the Phase 2 Q-round into the report as a deliverable**
+   (the questions a human would need to answer to enable runtime testing).
+2. Perform the skill's checks **statically** as far as the code allows — trace
+   input → guard → ownership/tenant/permission → sink → response/state, read config and
+   middleware, and record concrete code-level findings with confidence `likely`/`unconfirmed`.
+3. Mark every runtime/authenticated test `blocked` with the reason (no env/accounts).
+4. The audit is still `PARTIAL AUDIT` for runtime, but state explicitly that **static
+   coverage is complete** (every in-scope file/route reviewed) so a legitimate code-only
+   review does not read as half-abandoned. See `report-standard.md` "Adapting the structure".

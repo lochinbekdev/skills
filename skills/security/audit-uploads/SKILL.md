@@ -13,7 +13,11 @@ Follow `references/intake.md`: locate the upload/storage/serving endpoints yours
 then ask the user — one round of numbered `Q1/Q2…` questions with recommended answers —
 only the gaps (authorized test env, upload/download endpoints, accounts A/B, agreed small
 inert test inputs, authorized reversible actions). Explain the pipeline tests, then upload
-or mutate **only after an explicit "boshla"/"go".** Static review may proceed before that.
+or mutate **only after an explicit "boshla"/"go".** Static review may proceed before that. If the
+processing toolchain (e.g. `ogr2ogr`/GDAL, ImageMagick, ffmpeg, libreoffice) is not installed
+or the processor is unreachable, mark the dependent processing/serving tests `blocked` — that
+is a first-class blocker, not a skip. If there is no env/accounts/human, follow
+`references/intake.md` "Static-only engagement".
 
 ## Checks
 - **Type & name handling** — content-type vs real content, extension/MIME confusion, dangerous
@@ -23,7 +27,10 @@ or mutate **only after an explicit "boshla"/"go".** Static review may proceed be
   create or execute decompression bombs.**
 - **Post-upload serving** — rendering/serving of internal executable/HTML/SVG files, content
   disposition, and the origin files are served from.
-- **URL-import SSRF** — importing from a remote URL; allowlist and metadata-endpoint exposure.
+- **SSRF (HTTP and library-level)** — not only an explicit "import from URL" endpoint: a
+  processing library can fetch remote resources from inside a file, e.g. GDAL VRT/`/vsicurl`,
+  XML external entities (XXE), SVG/`<image href>`, PDF/`ImageMagick` remote refs. Check
+  allowlists, disabled-protocol flags, and metadata-endpoint exposure. Use only agreed in-scope targets.
 - **Blob deserialization**, **CSV/formula injection**, **EXIF** handling, and **download
   authorization** (can A fetch B's file?).
 

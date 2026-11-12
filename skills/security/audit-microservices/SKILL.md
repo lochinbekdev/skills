@@ -33,6 +33,19 @@ service/edge is internal-only or reachable from the internet (via gateway/ingres
 the graph in the report; a service or edge that cannot be confirmed is a coverage gap, not an
 omission.
 
+## 1b. Not a mesh? Invert to inbound + outbound trust
+Many real systems are a **modular monolith with external integrations**, not a service mesh.
+Do not force a mesh model. When one end of an edge is a **third party** (and therefore
+out-of-scope to test — see Rules), you still audit the **in-scope side**:
+- **Inbound trust** (another party → this app): webhooks, client/partner APIs, callback URLs.
+  Check authn (HMAC signature, mTLS, basic/JWT), anti-replay/nonce, IP allowlist vs spoofable
+  `X-Forwarded-For`/`TRUSTED_PROXIES`, and whether the payload is trusted without re-validation.
+- **Outbound trust** (this app → external service): TLS verification (flag any
+  `verify=false`/env-toggle), credential scope and storage, SSRF reachability, and whether a
+  response or a queue message from outside is trusted (confused deputy).
+Map third-party callees as edges but mark them `out-of-scope (external)`; audit only the side
+you own. With no env/accounts/human, follow `references/intake.md` "Static-only engagement".
+
 ## 2. Audit each trust boundary (per edge)
 For every `caller -> callee` edge, check:
 - **Service authn.** How does the callee authenticate the caller — mTLS, signed service token,
@@ -53,8 +66,12 @@ For every `caller -> callee` edge, check:
 - **Secrets for service-to-service.** How are s2s credentials stored, rotated, and scoped?
   Report class and location without exfiltrating values (`references/tooling.md`).
 - **Async / queues / events.** Can a message be forged, replayed, or sent cross-tenant? Is the
-  consumer's trust in the message justified, and is the producer authenticated?
-- **Shared datastores.** Do multiple services share a DB/schema, bypassing another service's
+  consumer's trust in the message justified, and is the producer authenticated? When only one
+  half is in-repo (e.g. producer here, consumer is an external service), audit the in-scope
+  half: what the producer emits and trusts, and whether a header/field it sets could be abused
+  by whoever consumes it.
+- **Shared datastores** (only when **≥2 in-scope services** share a store — skip for a single
+  app). Do multiple services share a DB/schema, bypassing another service's
   authorization by writing its tables directly? Flag ownership/boundary violations.
 
 ## 3. Cross-service attack chains

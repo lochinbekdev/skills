@@ -20,7 +20,11 @@ If a scanner is **already installed** and can run **read-only to stdout** withou
 project code or writing files/caches, use it to widen coverage, then reason over its output:
 - SAST: `semgrep --json` (read-only rules), language linters in check-only mode.
 - Dependencies/SCA: `osv-scanner`, `trivy fs`/`trivy repo` on manifests/lockfiles,
-  `npm/yarn/pnpm audit --json`, `pip-audit`, `govulncheck`, `cargo audit`, `composer audit`.
+  `npm/yarn/pnpm audit --json`, `pip-audit`, `govulncheck`, `cargo audit`,
+  `composer audit --locked --format=json`. **Use the lockfile-only flag** (`composer audit
+  --locked`; `npm audit` needs a lockfile present): on a read-only checkout with no installed
+  `vendor/`/`node_modules`, a plain `composer audit` prints "No packages" and exits 0 — a
+  silent false-clean. Always audit against the committed lockfile.
 - Secrets: `gitleaks detect --no-banner` / `trufflehog` in read-only mode.
 - Containers/IaC: `trivy config`, `checkov -o json`.
 

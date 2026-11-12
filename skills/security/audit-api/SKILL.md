@@ -6,7 +6,7 @@ description: Audit the web/API surface of a backend — routes, input handling, 
 # API surface audit
 
 Focused skill for the externally reachable web/API surface. Read first:
-`references/test-accounts.md`, `references/write-boundary.md`, `references/report-standard.md`, `references/tooling.md` (SAST/DAST breadth via existing safe scanners), `references/findings-quality.md` (confidence & export).
+`references/intake.md`, `references/test-accounts.md`, `references/write-boundary.md`, `references/report-standard.md`, `references/tooling.md` (SAST/DAST breadth via existing safe scanners), `references/findings-quality.md` (confidence & export).
 
 ## How this skill starts
 Follow `references/intake.md`: inventory routes and input handling yourself read-only, then ask
@@ -16,6 +16,12 @@ Explain which endpoints and checks will run, then send real requests **only afte
 explicit "boshla"/"go".** Static review may proceed before that.
 
 ## Inventory
+Routes are not always in the route files: many frameworks register them via attributes or
+annotations (e.g. `spatie/laravel-route-attributes`, Symfony/Spring annotations, NestJS
+decorators), so `routes/*.php` can be nearly empty while controllers hold the real surface —
+scan controllers too. When a server is available, confirm reachability with read-only
+introspection (`php artisan route:list`, `rails routes`) per `references/write-boundary.md`.
+
 For each route record: HTTP method/path, mounting/reachability, authentication, permissions,
 owner/tenant filters, input fields, and affected data. An action name inferred from conventions
 is **not** proof of an externally reachable endpoint — confirm reachability.

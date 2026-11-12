@@ -9,6 +9,10 @@ ran. This is the shared security report standard for the plugin.
 - Default location: the audited project root, unless the user or project agrees on another
   path (e.g. a dedicated `security/` or `work/` directory). Confirm the path once, then keep
   it stable across sessions. Do not invent nested directories the user did not agree to.
+- **Read-only target:** if writing into the project is not allowed (a read-only checkout,
+  a repo you must not touch, a CI dir), write the report to an agreed path **outside** the
+  target and state where. Writing the report must never be the thing that violates the
+  write boundary.
 - This report is the **only** file the auditor writes (see `write-boundary.md`).
 
 ## Language
@@ -47,6 +51,19 @@ ran. This is the shared security report standard for the plugin.
    refs, stable workflow/test/finding IDs, completed/in-progress/pending/blocked work, next
    safe step, outstanding rollback rows, and advisory-only remediation priorities (no fixes
    applied).
+
+## Adapting the structure per skill
+The sections above are written for a full runtime authorization/workflow audit. A focused or
+static-only run keeps the same skeleton but **marks inapplicable sections `not-applicable`
+with a one-line reason** rather than padding them, and **adds the artifact its skill produces**:
+- `audit-dependencies`: a dependency/CVE table and lockfile status; sections 4 (workflow
+  matrix) and the A/B handoff parts of 2 are usually `not-applicable`.
+- `audit-microservices`: a service-dependency map and a per-edge trust-boundary matrix in
+  section 3, and cross-service chains in section 6.
+- `audit-uploads` / `audit-api`: the endpoint/pipeline inventory in section 3.
+- A **static-only** run (no env/accounts, per `intake.md`) keeps section 2's unanswered items
+  as the Q-round, marks runtime rows `blocked`, and states that static coverage is complete.
+Never delete a section silently; `not-applicable` with a reason preserves the coverage contract.
 
 ## Evidence status labels
 Label every result explicitly: `confirmed`, `partial`, `blocked`, `not-applicable`,

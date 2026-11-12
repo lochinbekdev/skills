@@ -42,6 +42,9 @@ summary must be marked **`PARTIAL AUDIT`**.
    IP, or credential found in the repo does **not** authorize testing it.
 3. **Technology profile & inventory.** Record exact runtime/framework versions, dependencies
    and lock references, datastores, auth model, tenant boundaries, proxy/WAF, containers/CI,
+   Routes may be registered by attributes/annotations, not in route files, so inventory
+   controllers too; confirm reachability with read-only introspection (`php artisan
+   route:list`, `rails routes`) per `references/write-boundary.md` rather than guessing.
    and integrations. Inventory every route, controller/service/model, middleware/policy,
    job, CLI, config, and migration. Tabulate in the report. Mark unknowns.
 4. **Business workflow inventory.** Identify **every** workflow (ordinary ones too). Assign
