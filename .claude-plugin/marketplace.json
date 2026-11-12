@@ -1,0 +1,24 @@
+{
+  "name": "lochinbekdev",
+  "owner": {
+    "name": "Lochinbek",
+    "url": "https://github.com/lochinbekdev"
+  },
+  "description": "Security-focused agent skills for backend auditing, installable as a Claude Code plugin.",
+  "plugins": [
+    {
+      "name": "security-audit",
+      "source": "./",
+      "description": "Small, composable security-audit skills: backend audit orchestrator plus focused skills for authorization testing, API surface, upload/storage, and dependency supply chain. Evidence-based reports in a fixed standard.",
+      "category": "security",
+      "keywords": [
+        "security",
+        "audit",
+        "pentest",
+        "authorization",
+        "owasp",
+        "supply-chain"
+      ]
+    }
+  ]
+}

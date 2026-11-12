@@ -1,0 +1,13 @@
+{
+  "name": "security-audit",
+  "version": "0.1.0",
+  "description": "Security-focused agent skills for backend auditing.",
+  "author": {
+    "name": "Lochinbek",
+    "url": "https://github.com/lochinbekdev"
+  },
+  "homepage": "https://github.com/lochinbekdev/skills",
+  "repository": "https://github.com/lochinbekdev/skills",
+  "license": "MIT",
+  "keywords": ["security", "audit", "pentest", "authorization", "owasp"]
+}
