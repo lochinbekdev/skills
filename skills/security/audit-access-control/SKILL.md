@@ -7,7 +7,7 @@ description: Test horizontal, vertical, and cross-tenant authorization on a back
 
 Focused skill for **broken access control**: horizontal (A↔B at the same level), vertical
 (low role → high-role operation), cross-tenant isolation, and protected-field tampering.
-Read first: `docs/test-accounts.md`, `docs/write-boundary.md`, `docs/report-standard.md`.
+Read first: `docs/test-accounts.md`, `docs/write-boundary.md`, `docs/report-standard.md`, `docs/findings-quality.md` (confidence scoring, false-positive challenge, stable IDs).
 
 ## How this skill starts
 Follow `docs/intake.md`: first inspect the code read-only and map the resources, owners,

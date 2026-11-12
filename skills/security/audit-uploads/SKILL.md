@@ -6,7 +6,7 @@ description: Audit the upload → storage → processing → serving pipeline of
 # Upload / storage / processing / serving security
 
 Focused skill for the file pipeline. Read first: `docs/write-boundary.md`,
-`docs/test-accounts.md`, `docs/report-standard.md`.
+`docs/test-accounts.md`, `docs/report-standard.md`, `docs/findings-quality.md` (confidence & export).
 
 ## How this skill starts
 Follow `docs/intake.md`: locate the upload/storage/serving endpoints yourself read-only,

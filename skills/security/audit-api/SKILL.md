@@ -6,7 +6,7 @@ description: Audit the web/API surface of a backend — routes, input handling, 
 # API surface audit
 
 Focused skill for the externally reachable web/API surface. Read first:
-`docs/test-accounts.md`, `docs/write-boundary.md`, `docs/report-standard.md`.
+`docs/test-accounts.md`, `docs/write-boundary.md`, `docs/report-standard.md`, `docs/tooling.md` (SAST/DAST breadth via existing safe scanners), `docs/findings-quality.md` (confidence & export).
 
 ## How this skill starts
 Follow `docs/intake.md`: inventory routes and input handling yourself read-only, then ask

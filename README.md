@@ -53,6 +53,10 @@ Codex then discovers them from `~/.agents/skills`. You can also just point your
 - **`docs/write-boundary.md`** — the read-only write boundary; the only file written is the report.
 - **`docs/intake.md`** — the grill → plan → go protocol: skills recon the project, ask the user for
   missing data as `Q1/Q2…` questions, explain the plan, and start real testing only on an explicit go.
+- **`docs/tooling.md`** — widen coverage with existing safe scanners (read-only, stdout only) and pull
+  dependency CVEs from a live advisory source (OSV), not model memory. Never install or auto-fix.
+- **`docs/findings-quality.md`** — confidence scoring, false-positive challenge, stable IDs, a SARIF/JSON
+  machine export, and a CI / non-interactive mode.
 
 ## Principles
 
@@ -60,6 +64,24 @@ Codex then discovers them from `~/.agents/skills`. You can also just point your
 - **Evidence over status codes.** `HTTP 200` is not proof; every mutation needs a separate read
   and a verified rollback.
 - **No harm.** No DoS, brute force, enumeration, RCE, or damage to real data.
+- **Tools for breadth, humans for logic.** Lean on scanners and live CVE data for coverage and
+  freshness; keep manual reasoning for authorization and business logic.
+
+## vs. scanners (when to use this)
+
+Dedicated scanners win on breadth, speed, determinism, and fresh data; this plugin folds those
+strengths in (safe existing scanners + live OSV data + SARIF export + CI mode) while adding what
+they miss: **authorized, evidence-based testing of horizontal/vertical/tenant authorization and
+business-logic workflows** with real A/B accounts and matched control/test pairs.
+
+- **SAST** (Semgrep, SonarQube): great for code patterns; blind to runtime authorization/tenancy.
+- **DAST** (StackHawk, NightVision, 42Crunch): great for crawl/fuzz; weak on business logic and
+  per-object ownership. These skills test it deliberately, without enumeration or DoS.
+- **SCA** (Sonatype, Endor, JFrog): deep dependency graphs; `audit-dependencies` queries live OSV
+  data and existing audit tools read-only, then confirms manually.
+
+Use a scanner for continuous, automated breadth; use these skills for a careful, authorized,
+reproducible audit that reasons about authorization and workflows.
 
 ## Layout
 
@@ -72,6 +94,8 @@ docs/
   report-standard.md
   test-accounts.md
   write-boundary.md
+  tooling.md
+  findings-quality.md
 scripts/
   link-skills.sh            # link skills into ~/.agents/skills and ~/.claude/skills
 skills/

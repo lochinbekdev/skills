@@ -15,6 +15,8 @@ Follow these shared rules exactly — read them before acting:
 - `docs/write-boundary.md` — the single-file, read-only write boundary and baseline check.
 - `docs/test-accounts.md` — test accounts, normal login, matched control/test pairs.
 - `docs/report-standard.md` — the one deliverable, its structure, and output location (**report in English by default**).
+- `docs/tooling.md` — widen coverage with existing safe scanners (read-only) and live CVE data, not model memory.
+- `docs/findings-quality.md` — confidence scoring, false-positive challenge, stable IDs, SARIF/JSON export, CI mode.
 
 ## How this skill starts
 Do **not** jump straight into testing. Follow `docs/intake.md`:
@@ -55,11 +57,22 @@ summary must be marked **`PARTIAL AUDIT`**.
    full end-to-end workflow runs with A/B and control roles, using matched control/test pairs
    (`docs/test-accounts.md`). `HTTP 200` is not proof; every mutation needs a separate read and
    a verified rollback.
-7. **Coverage & A–Q.** For every inventory item and every A–Q block, mark reviewed / tested /
+7. **Augment with tools.** Widen breadth with existing safe scanners (read-only, stdout only)
+   and fetch dependency CVEs from a live advisory source, per `docs/tooling.md`. Treat tool
+   output as leads, then confirm manually. Never install or auto-fix.
+8. **Coverage & A–Q.** For every inventory item and every A–Q block, mark reviewed / tested /
    not-applicable / not-tested with a reason. Do not claim coverage from sampling.
-8. **Report.** Write the single report per the standard (English by default). Keep a progress ledger inside
-   it so the audit can resume. End the chat with report path, status, main confirmed results,
+9. **Qualify findings.** Give each finding a stable ID and a confidence (`confirmed`/`likely`/
+   `unconfirmed`), and challenge it for false positives per `docs/findings-quality.md`.
+10. **Report.** Write the single report per the standard (English by default). Keep a progress
+   ledger inside it so the audit can resume. When asked or in CI, also emit the SARIF/JSON
+   export to an agreed path. End the chat with report path, status, main confirmed results,
    workflow counts, and blockers — no sensitive evidence in chat.
+
+## CI / non-interactive mode
+When scope, environment, and accounts are supplied up front (flags/env/config), skip the
+intake interview and run directly, then emit the machine-readable export plus a short summary
+with counts by severity and confidence (`docs/findings-quality.md`).
 
 ## Hard limits
 No DoS, brute force, broad enumeration, account lockout, RCE, or harm to real data. No pivot to
