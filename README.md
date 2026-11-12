@@ -1,8 +1,7 @@
 # lochinbekdev / skills
 
 Small, composable **security** skills for AI agents, installable as a Claude Code plugin —
-like npm/composer/pip, but for agent skills. Modeled after the
-[mattpocock/skills](https://github.com/mattpocock/skills) layout.
+like npm/composer/pip, but for agent skills.
 
 Each skill has a **narrow scope**, its own operating rules, and shares three cross-cutting
 standards so every audit behaves the same way.
