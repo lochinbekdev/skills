@@ -5,11 +5,11 @@ description: Audit the upload → storage → processing → serving pipeline of
 
 # Upload / storage / processing / serving security
 
-Focused skill for the file pipeline. Read first: `docs/write-boundary.md`,
-`docs/test-accounts.md`, `docs/report-standard.md`, `docs/findings-quality.md` (confidence & export).
+Focused skill for the file pipeline. Read first: `references/write-boundary.md`,
+`references/test-accounts.md`, `references/report-standard.md`, `references/findings-quality.md` (confidence & export).
 
 ## How this skill starts
-Follow `docs/intake.md`: locate the upload/storage/serving endpoints yourself read-only,
+Follow `references/intake.md`: locate the upload/storage/serving endpoints yourself read-only,
 then ask the user — one round of numbered `Q1/Q2…` questions with recommended answers —
 only the gaps (authorized test env, upload/download endpoints, accounts A/B, agreed small
 inert test inputs, authorized reversible actions). Explain the pipeline tests, then upload
@@ -29,10 +29,10 @@ or mutate **only after an explicit "boshla"/"go".** Static review may proceed be
 
 ## Rules
 - Prepare only agreed, **small, inert** test inputs **in memory** — no local fixtures or archive
-  artifacts on disk (`docs/write-boundary.md`). For browser-rendering claims use only the benign
+  artifacts on disk (`references/write-boundary.md`). For browser-rendering claims use only the benign
   markers agreed for browser testing, in an isolated nonpersistent context.
 - Download/serve authorization reuses matched control/test pairs and the A/B accounts from
-  `docs/test-accounts.md`; report cross-account file access as a horizontal authz failure.
+  `references/test-accounts.md`; report cross-account file access as a horizontal authz failure.
 - Every mutation reversible with a separate read + rollback. No harm to real stored data.
 
-Fold all results and evidence into the single report (`docs/report-standard.md`), written in **English by default** (or the user's chosen language).
+Fold all results and evidence into the single report (`references/report-standard.md`), written in **English by default** (or the user's chosen language).

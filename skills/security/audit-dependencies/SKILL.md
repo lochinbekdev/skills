@@ -5,12 +5,12 @@ description: Audit a backend's dependencies, lockfiles, runtime/framework versio
 
 # Dependency & supply-chain audit
 
-Focused, **read-only** skill. Read first: `docs/write-boundary.md`, `docs/report-standard.md`,
-`docs/tooling.md` (safe scanners + live CVE data), `docs/findings-quality.md` (confidence & export).
+Focused, **read-only** skill. Read first: `references/write-boundary.md`, `references/report-standard.md`,
+`references/tooling.md` (safe scanners + live CVE data), `references/findings-quality.md` (confidence & export).
 
 ## How this skill starts
 This skill needs **no live access or test accounts**, so it does **not** run the full intake
-interview (`docs/intake.md`). It runs directly on the repo already in scope: read manifests,
+interview (`references/intake.md`). It runs directly on the repo already in scope: read manifests,
 lockfiles, CI, and config read-only and produce findings. Ask the user only if the repo path
 or audit scope is genuinely ambiguous; otherwise proceed and mark any unconfirmable item
 (e.g. the deployed runtime patch version) as `blocked`.
@@ -20,7 +20,7 @@ or audit scope is genuinely ambiguous; otherwise proceed and mark any unconfirma
 install/update.** Inspect manifests, lockfiles, and advisories; do not execute project code.
 
 ## Tooling first (breadth + fresh data)
-Per `docs/tooling.md`, widen coverage with tools that are **already installed** and run
+Per `references/tooling.md`, widen coverage with tools that are **already installed** and run
 read-only to stdout — `osv-scanner`, `trivy fs`, `npm/pnpm/pip/cargo/composer audit --json`,
 `govulncheck`, plus `gitleaks`/`trufflehog` for secrets. **Never install or auto-fix.** For
 per-dependency CVEs, query a **live advisory source** (OSV `api.osv.dev/v1/query`) rather than
@@ -41,10 +41,10 @@ model memory; if no scanner and no network, mark version-specific CVE claims `bl
 
 ## Rules
 - Treat scanner output as **leads**: confirm each relevant hit, assign a confidence and stable
-  ID, and challenge false positives (`docs/findings-quality.md`).
+  ID, and challenge false positives (`references/findings-quality.md`).
 - Distinguish a declared constraint from the real runtime version; state the limitation when the
   deployed version cannot be confirmed.
 - Threat intel must be **dated and sourced** (cite the advisory/tool + version).
 - No writes beyond the report (plus the agreed SARIF/JSON export). No calls that execute project code.
 
-Fold all results and evidence into the single report (`docs/report-standard.md`), written in **English by default** (or the user's chosen language).
+Fold all results and evidence into the single report (`references/report-standard.md`), written in **English by default** (or the user's chosen language).

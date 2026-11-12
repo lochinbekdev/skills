@@ -11,15 +11,15 @@ in-scope business workflow end-to-end through **real APIs** with A/B and control
 write an evidence-based report a developer can reproduce. **Applying fixes is out of scope.**
 
 Follow these shared rules exactly — read them before acting:
-- `docs/intake.md` — the grill → plan → go protocol: recon first, ask the gaps, explain, wait for go.
-- `docs/write-boundary.md` — the single-file, read-only write boundary and baseline check.
-- `docs/test-accounts.md` — test accounts, normal login, matched control/test pairs.
-- `docs/report-standard.md` — the one deliverable, its structure, and output location (**report in English by default**).
-- `docs/tooling.md` — widen coverage with existing safe scanners (read-only) and live CVE data, not model memory.
-- `docs/findings-quality.md` — confidence scoring, false-positive challenge, stable IDs, SARIF/JSON export, CI mode.
+- `references/intake.md` — the grill → plan → go protocol: recon first, ask the gaps, explain, wait for go.
+- `references/write-boundary.md` — the single-file, read-only write boundary and baseline check.
+- `references/test-accounts.md` — test accounts, normal login, matched control/test pairs.
+- `references/report-standard.md` — the one deliverable, its structure, and output location (**report in English by default**).
+- `references/tooling.md` — widen coverage with existing safe scanners (read-only) and live CVE data, not model memory.
+- `references/findings-quality.md` — confidence scoring, false-positive challenge, stable IDs, SARIF/JSON export, CI mode.
 
 ## How this skill starts
-Do **not** jump straight into testing. Follow `docs/intake.md`:
+Do **not** jump straight into testing. Follow `references/intake.md`:
 1. **Self-recon (Phase 1).** Inspect the repo read-only and establish stack, routes, auth
    model, tenant boundaries, and candidate workflows yourself — do not ask what you can find.
 2. **Ask the gaps (Phase 2).** Put the missing items to the user as one round of numbered
@@ -32,13 +32,13 @@ Do **not** jump straight into testing. Follow `docs/intake.md`:
 
 ## Deliverable
 One report, `SECURITY_AUDIT_REPORT.md` (default location: the audited project root, or an agreed path), written in **English by default** (or the user's chosen language), in the structure
-of `docs/report-standard.md`. If any required practical test is incomplete, the title and
+of `references/report-standard.md`. If any required practical test is incomplete, the title and
 summary must be marked **`PARTIAL AUDIT`**.
 
 ## Procedure
 1. **Baseline.** Record project root, time/zone, commit, and `git status` (see write-boundary).
 2. **Scope & authorization.** Use what the conversation already provides; ask only for missing
-   items, grouped into one request, per `docs/test-accounts.md` §"Accounts to request". A domain,
+   items, grouped into one request, per `references/test-accounts.md` §"Accounts to request". A domain,
    IP, or credential found in the repo does **not** authorize testing it.
 3. **Technology profile & inventory.** Record exact runtime/framework versions, dependencies
    and lock references, datastores, auth model, tenant boundaries, proxy/WAF, containers/CI,
@@ -57,15 +57,15 @@ summary must be marked **`PARTIAL AUDIT`**.
    Each returns findings and evidence to fold into the single report; do not duplicate captures.
 6. **Real tests.** Static review alone is insufficient. Run operation-level authz tests and
    full end-to-end workflow runs with A/B and control roles, using matched control/test pairs
-   (`docs/test-accounts.md`). `HTTP 200` is not proof; every mutation needs a separate read and
+   (`references/test-accounts.md`). `HTTP 200` is not proof; every mutation needs a separate read and
    a verified rollback.
 7. **Augment with tools.** Widen breadth with existing safe scanners (read-only, stdout only)
-   and fetch dependency CVEs from a live advisory source, per `docs/tooling.md`. Treat tool
+   and fetch dependency CVEs from a live advisory source, per `references/tooling.md`. Treat tool
    output as leads, then confirm manually. Never install or auto-fix.
 8. **Coverage & A–Q.** For every inventory item and every A–Q block, mark reviewed / tested /
    not-applicable / not-tested with a reason. Do not claim coverage from sampling.
 9. **Qualify findings.** Give each finding a stable ID and a confidence (`confirmed`/`likely`/
-   `unconfirmed`), and challenge it for false positives per `docs/findings-quality.md`.
+   `unconfirmed`), and challenge it for false positives per `references/findings-quality.md`.
 10. **Report.** Write the single report per the standard (English by default). Keep a progress
    ledger inside it so the audit can resume. When asked or in CI, also emit the SARIF/JSON
    export to an agreed path. End the chat with report path, status, main confirmed results,
@@ -74,7 +74,7 @@ summary must be marked **`PARTIAL AUDIT`**.
 ## CI / non-interactive mode
 When scope, environment, and accounts are supplied up front (flags/env/config), skip the
 intake interview and run directly, then emit the machine-readable export plus a short summary
-with counts by severity and confidence (`docs/findings-quality.md`).
+with counts by severity and confidence (`references/findings-quality.md`).
 
 ## Hard limits
 No DoS, brute force, broad enumeration, account lockout, RCE, or harm to real data. No pivot to

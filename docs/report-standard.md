@@ -9,7 +9,7 @@ ran. This is the shared security report standard for the plugin.
 - Default location: the audited project root, unless the user or project agrees on another
   path (e.g. a dedicated `security/` or `work/` directory). Confirm the path once, then keep
   it stable across sessions. Do not invent nested directories the user did not agree to.
-- This report is the **only** file the auditor writes (see `docs/write-boundary.md`).
+- This report is the **only** file the auditor writes (see `write-boundary.md`).
 
 ## Language
 - **Default: English.** Write the report in English unless the user asks for another language.
@@ -52,11 +52,11 @@ ran. This is the shared security report standard for the plugin.
 Label every result explicitly: `confirmed`, `partial`, `blocked`, `not-applicable`,
 `not-tested` — each with a reason. Signature/scanner/file-count output does not establish a
 complete manual audit or real API testing. Each finding also carries a **confidence**
-(`confirmed`/`likely`/`unconfirmed`) and a **stable ID** per `docs/findings-quality.md`.
+(`confirmed`/`likely`/`unconfirmed`) and a **stable ID** per `findings-quality.md`.
 
 ## Machine-readable export (optional, agreed)
 Alongside this Markdown report, emit a machine-readable findings file (SARIF 2.1.0 preferred,
-JSON fallback) when the user asks or when running in CI, per `docs/findings-quality.md`. The
+JSON fallback) when the user asks or when running in CI, per `findings-quality.md`. The
 Markdown stays the human source of truth; the export is written only to an agreed path under
 the write boundary. Dependency CVEs come from a live advisory source, not model memory
-(`docs/tooling.md`).
+(`tooling.md`).

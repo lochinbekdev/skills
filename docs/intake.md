@@ -27,7 +27,7 @@ answer**, worded so "yes" accepts the recommendation:
 Ask only what Phase 1 could not establish. Typical gaps: authorized test environment /
 base URL, in-scope vs out-of-scope hosts/modules, audit window and rate limit, two
 lowest-role accounts **A** and **B** plus any control-role accounts (see
-`docs/test-accounts.md`), identifiable test objects for A and B, and which
+`test-accounts.md`), identifiable test objects for A and B, and which
 create/update/delete/transition/field actions are authorized and reversible. Do not ask
 again for anything already provided in the conversation.
 
@@ -35,7 +35,7 @@ again for anything already provided in the conversation.
 Once the user answers, restate concisely: which workflows/endpoints will be tested, the
 A/B and control-role handoffs, which mutations will run and how they roll back, what is
 **blocked** for missing data, and that the single report is the only file written
-(`docs/write-boundary.md`). Keep it short; no action yet.
+(`write-boundary.md`). Keep it short; no action yet.
 
 ## Phase 4 — Wait for "go"
 Start real HTTP tests and mutations only after an explicit go ("boshla" / "start" / "go").

@@ -7,10 +7,10 @@ description: Test horizontal, vertical, and cross-tenant authorization on a back
 
 Focused skill for **broken access control**: horizontal (A↔B at the same level), vertical
 (low role → high-role operation), cross-tenant isolation, and protected-field tampering.
-Read first: `docs/test-accounts.md`, `docs/write-boundary.md`, `docs/report-standard.md`, `docs/findings-quality.md` (confidence scoring, false-positive challenge, stable IDs).
+Read first: `references/test-accounts.md`, `references/write-boundary.md`, `references/report-standard.md`, `references/findings-quality.md` (confidence scoring, false-positive challenge, stable IDs).
 
 ## How this skill starts
-Follow `docs/intake.md`: first inspect the code read-only and map the resources, owners,
+Follow `references/intake.md`: first inspect the code read-only and map the resources, owners,
 and tenant boundaries yourself; then ask the user — as one round of numbered `Q1/Q2…`
 questions with recommended answers — only the gaps (A/B lowest-role accounts, control
 roles, identifiable test objects, authorized reversible mutations). Explain the test plan,
@@ -53,4 +53,4 @@ check → sink → response/state).
 - Every mutation: original → small change → separate read → rollback → rollback read. If rollback
   fails, stop mutating that area and record the residual change, risk, and required operator action.
 
-Fold all results and evidence into the single report (`docs/report-standard.md`), written in **English by default** (or the user's chosen language).
+Fold all results and evidence into the single report (`references/report-standard.md`), written in **English by default** (or the user's chosen language).

@@ -46,6 +46,10 @@ Codex then discovers them from `~/.agents/skills`. You can also just point your
 
 ## Shared standards (`docs/`)
 
+> `docs/` is the canonical source. Because an installed skill is loaded by its own directory and
+> cannot resolve a repo-root path at runtime, each skill bundles these as `references/<doc>.md`
+> next to its `SKILL.md`. Edit under `docs/`, then run `scripts/sync-docs.sh` to refresh the copies.
+
 - **`docs/report-standard.md`** — the one deliverable and its fixed structure. Report is written
   in **English by default** (user-selectable), with a mandatory `PARTIAL AUDIT` marker when any practical test
   is incomplete.
@@ -99,6 +103,7 @@ docs/
   findings-quality.md
 scripts/
   link-skills.sh            # link skills into ~/.agents/skills and ~/.claude/skills
+  sync-docs.sh              # copy docs/*.md into each skill's references/ (keeps skills self-contained)
 skills/
   security/
     audit-backend/

@@ -6,10 +6,10 @@ description: Audit the web/API surface of a backend — routes, input handling, 
 # API surface audit
 
 Focused skill for the externally reachable web/API surface. Read first:
-`docs/test-accounts.md`, `docs/write-boundary.md`, `docs/report-standard.md`, `docs/tooling.md` (SAST/DAST breadth via existing safe scanners), `docs/findings-quality.md` (confidence & export).
+`references/test-accounts.md`, `references/write-boundary.md`, `references/report-standard.md`, `references/tooling.md` (SAST/DAST breadth via existing safe scanners), `references/findings-quality.md` (confidence & export).
 
 ## How this skill starts
-Follow `docs/intake.md`: inventory routes and input handling yourself read-only, then ask
+Follow `references/intake.md`: inventory routes and input handling yourself read-only, then ask
 the user — one round of numbered `Q1/Q2…` questions with recommended answers — only the
 gaps (authorized test env/base URL, in/out-of-scope endpoints, accounts, rate limit).
 Explain which endpoints and checks will run, then send real requests **only after an
@@ -33,7 +33,7 @@ is **not** proof of an externally reachable endpoint — confirm reachability.
   harmful or parallel load tests.
 
 ## Rules
-- Use matched control/test pairs (`docs/test-accounts.md`): establish a legitimate request, then
+- Use matched control/test pairs (`references/test-accounts.md`): establish a legitimate request, then
   change only the tested factor.
 - A failed legitimate control leaves the comparison inconclusive — diagnose endpoint/login/object
   first. A malformed-body `400/422` or wrong URL does not establish correct authorization.
@@ -42,4 +42,4 @@ is **not** proof of an externally reachable endpoint — confirm reachability.
 - Read-only boundary applies: no fixtures, scripts, or artifacts on disk. No DoS, brute force, or
   broad enumeration. No RCE, deserialization gadgets, or active webshells.
 
-Fold all results and evidence into the single report (`docs/report-standard.md`), written in **English by default** (or the user's chosen language).
+Fold all results and evidence into the single report (`references/report-standard.md`), written in **English by default** (or the user's chosen language).
