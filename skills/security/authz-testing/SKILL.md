@@ -9,6 +9,14 @@ Focused skill for **broken access control**: horizontal (A↔B at the same level
 (low role → high-role operation), cross-tenant isolation, and protected-field tampering.
 Read first: `docs/test-accounts.md`, `docs/write-boundary.md`, `docs/report-standard.md`.
 
+## How this skill starts
+Follow `docs/intake.md`: first inspect the code read-only and map the resources, owners,
+and tenant boundaries yourself; then ask the user — as one round of numbered `Q1/Q2…`
+questions with recommended answers — only the gaps (A/B lowest-role accounts, control
+roles, identifiable test objects, authorized reversible mutations). Explain the test plan,
+then run real requests and mutations **only after an explicit "boshla"/"go".** Read-only
+code tracing may proceed before that.
+
 ## Prerequisite
 Two separate accounts **A** and **B**, both at the system's **lowest authenticated role**,
 plus a separate control account per higher role the workflow needs. Reach each by **normal

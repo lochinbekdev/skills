@@ -8,6 +8,13 @@ description: Audit the web/API surface of a backend — routes, input handling, 
 Focused skill for the externally reachable web/API surface. Read first:
 `docs/test-accounts.md`, `docs/write-boundary.md`, `docs/report-standard.md`.
 
+## How this skill starts
+Follow `docs/intake.md`: inventory routes and input handling yourself read-only, then ask
+the user — one round of numbered `Q1/Q2…` questions with recommended answers — only the
+gaps (authorized test env/base URL, in/out-of-scope endpoints, accounts, rate limit).
+Explain which endpoints and checks will run, then send real requests **only after an
+explicit "boshla"/"go".** Static review may proceed before that.
+
 ## Inventory
 For each route record: HTTP method/path, mounting/reachability, authentication, permissions,
 owner/tenant filters, input fields, and affected data. An action name inferred from conventions

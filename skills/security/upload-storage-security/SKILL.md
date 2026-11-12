@@ -8,6 +8,13 @@ description: Audit the upload → storage → processing → serving pipeline of
 Focused skill for the file pipeline. Read first: `docs/write-boundary.md`,
 `docs/test-accounts.md`, `docs/report-standard.md`.
 
+## How this skill starts
+Follow `docs/intake.md`: locate the upload/storage/serving endpoints yourself read-only,
+then ask the user — one round of numbered `Q1/Q2…` questions with recommended answers —
+only the gaps (authorized test env, upload/download endpoints, accounts A/B, agreed small
+inert test inputs, authorized reversible actions). Explain the pipeline tests, then upload
+or mutate **only after an explicit "boshla"/"go".** Static review may proceed before that.
+
 ## Checks
 - **Type & name handling** — content-type vs real content, extension/MIME confusion, dangerous
   filenames, path traversal in stored path, overwrite containment.

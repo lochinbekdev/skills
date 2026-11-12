@@ -11,9 +11,22 @@ in-scope business workflow end-to-end through **real APIs** with A/B and control
 write an evidence-based report a developer can reproduce. **Applying fixes is out of scope.**
 
 Follow these shared rules exactly — read them before acting:
+- `docs/intake.md` — the grill → plan → go protocol: recon first, ask the gaps, explain, wait for go.
 - `docs/write-boundary.md` — the single-file, read-only write boundary and baseline check.
 - `docs/test-accounts.md` — test accounts, normal login, matched control/test pairs.
 - `docs/report-standard.md` — the one deliverable, its structure, and output location (**report in English by default**).
+
+## How this skill starts
+Do **not** jump straight into testing. Follow `docs/intake.md`:
+1. **Self-recon (Phase 1).** Inspect the repo read-only and establish stack, routes, auth
+   model, tenant boundaries, and candidate workflows yourself — do not ask what you can find.
+2. **Ask the gaps (Phase 2).** Put the missing items to the user as one round of numbered
+   `Q1/Q2…` questions, each with a recommended answer (test env/base URL, in/out-of-scope,
+   audit window/rate, accounts A/B + control roles, test objects, authorized mutations).
+3. **Explain the plan (Phase 3).** Restate what will be tested, the A/B/control handoffs,
+   mutations and rollback, blocked items, and that only the report is written.
+4. **Wait for go (Phase 4).** Start real HTTP tests and mutations only after an explicit
+   "boshla"/"start"/"go". Read-only static analysis may continue before that.
 
 ## Deliverable
 One report, `SECURITY_AUDIT_REPORT.md` (default location: the audited project root, or an agreed path), written in **English by default** (or the user's chosen language), in the structure

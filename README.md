@@ -33,6 +33,8 @@ Then run a skill, e.g. `/backend-security-audit`, or just ask the agent to "audi
 - **`docs/test-accounts.md`** — how auth is tested: two lowest-role accounts (A/B), control roles,
   normal login, and matched control/test request pairs.
 - **`docs/write-boundary.md`** — the read-only write boundary; the only file written is the report.
+- **`docs/intake.md`** — the grill → plan → go protocol: skills recon the project, ask the user for
+  missing data as `Q1/Q2…` questions, explain the plan, and start real testing only on an explicit go.
 
 ## Principles
 
@@ -48,6 +50,7 @@ Then run a skill, e.g. `/backend-security-audit`, or just ask the agent to "audi
   marketplace.json
   plugin.json
 docs/
+  intake.md
   report-standard.md
   test-accounts.md
   write-boundary.md

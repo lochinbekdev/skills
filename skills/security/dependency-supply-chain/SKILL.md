@@ -7,6 +7,13 @@ description: Audit a backend's dependencies, lockfiles, runtime/framework versio
 
 Focused, **read-only** skill. Read first: `docs/write-boundary.md`, `docs/report-standard.md`.
 
+## How this skill starts
+This skill needs **no live access or test accounts**, so it does **not** run the full intake
+interview (`docs/intake.md`). It runs directly on the repo already in scope: read manifests,
+lockfiles, CI, and config read-only and produce findings. Ask the user only if the repo path
+or audit scope is genuinely ambiguous; otherwise proceed and mark any unconfirmable item
+(e.g. the deployed runtime patch version) as `blocked`.
+
 ## Hard constraint
 **Never install or update packages, run auto-fixers, or run `npm audit fix` / dependency
 install/update.** Inspect manifests, lockfiles, and advisories; do not execute project code.
