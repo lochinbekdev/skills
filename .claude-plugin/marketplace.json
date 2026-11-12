@@ -7,7 +7,7 @@
   "description": "Security-focused agent skills for backend auditing, installable as a Claude Code plugin.",
   "plugins": [
     {
-      "name": "security-audit",
+      "name": "lochinbekdev-security",
       "source": "./",
       "description": "Small, composable security-audit skills: backend audit orchestrator plus focused skills for authorization testing, API surface, upload/storage, and dependency supply chain. Evidence-based reports in a fixed standard.",
       "category": "security",

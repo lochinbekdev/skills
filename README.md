@@ -11,7 +11,7 @@ standards so every audit behaves the same way.
 
 ```
 /plugin marketplace add lochinbekdev/skills
-/plugin install security-audit@lochinbekdev
+/plugin install lochinbekdev-security@lochinbekdev
 ```
 
 Then run a skill, e.g. `/backend-security-audit`, or just ask the agent to "audit this backend".
