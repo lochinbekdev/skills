@@ -11,10 +11,10 @@
   "license": "MIT",
   "keywords": ["security", "audit", "pentest", "authorization", "owasp"],
   "skills": [
-    "./skills/security/backend-security-audit",
-    "./skills/security/authz-testing",
-    "./skills/security/api-surface-audit",
-    "./skills/security/upload-storage-security",
-    "./skills/security/dependency-supply-chain"
+    "./skills/security/audit-backend",
+    "./skills/security/audit-access-control",
+    "./skills/security/audit-api",
+    "./skills/security/audit-uploads",
+    "./skills/security/audit-dependencies"
   ]
 }

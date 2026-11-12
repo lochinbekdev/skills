@@ -1,6 +1,6 @@
 ---
-name: upload-storage-security
-description: Audit the upload → storage → processing → serving pipeline of a backend — file-type/path handling, archive extraction (zip-slip), SSRF on URL import, EXIF/CSV-formula injection, and download authorization. Use when the user wants file-upload security review or runs /upload-storage-security.
+name: audit-uploads
+description: Audit the upload → storage → processing → serving pipeline of a backend — file-type/path handling, archive extraction (zip-slip), SSRF on URL import, EXIF/CSV-formula injection, and download authorization. Use when the user wants file-upload security review or runs /audit-uploads.
 ---
 
 # Upload / storage / processing / serving security

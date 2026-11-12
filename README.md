@@ -13,17 +13,17 @@ standards so every audit behaves the same way.
 /plugin install lochinbekdev-security@lochinbekdev
 ```
 
-Then run a skill, e.g. `/backend-security-audit`, or just ask the agent to "audit this backend".
+Then run a skill, e.g. `/audit-backend`, or just ask the agent to "audit this backend".
 
 ## Skills
 
 | Skill | Scope |
 |---|---|
-| `backend-security-audit` | Orchestrator — runs a full, stack-agnostic backend audit and writes the single report. |
-| `authz-testing` | Horizontal / vertical / cross-tenant authorization and field-permission tests with A/B accounts. |
-| `api-surface-audit` | Routes, injection, SSRF, CORS, headers, and business-logic abuse. |
-| `upload-storage-security` | Upload → storage → processing → serving, archive extraction (zip-slip), download authz. |
-| `dependency-supply-chain` | Dependencies, lockfiles, runtime versions, CI/CD, and secret exposure (read-only). |
+| `audit-backend` | Orchestrator — runs a full, stack-agnostic backend audit and writes the single report. |
+| `audit-access-control` | Horizontal / vertical / cross-tenant authorization and field-permission tests with A/B accounts. |
+| `audit-api` | Routes, injection, SSRF, CORS, headers, and business-logic abuse. |
+| `audit-uploads` | Upload → storage → processing → serving, archive extraction (zip-slip), download authz. |
+| `audit-dependencies` | Dependencies, lockfiles, runtime versions, CI/CD, and secret exposure (read-only). |
 
 ## Shared standards (`docs/`)
 
@@ -56,11 +56,11 @@ docs/
   write-boundary.md
 skills/
   security/
-    backend-security-audit/SKILL.md
-    authz-testing/SKILL.md
-    api-surface-audit/SKILL.md
-    upload-storage-security/SKILL.md
-    dependency-supply-chain/SKILL.md
+    audit-backend/SKILL.md
+    audit-access-control/SKILL.md
+    audit-api/SKILL.md
+    audit-uploads/SKILL.md
+    audit-dependencies/SKILL.md
 ```
 
 ## Roadmap

@@ -1,6 +1,6 @@
 ---
-name: authz-testing
-description: Test horizontal, vertical, and cross-tenant authorization on a backend using two lowest-role test accounts (A/B) and control roles, with matched control/test request pairs. Use when the user wants broken-access-control / IDOR / privilege-escalation / tenant-isolation testing, or runs /authz-testing.
+name: audit-access-control
+description: Test horizontal, vertical, and cross-tenant authorization on a backend using two lowest-role test accounts (A/B) and control roles, with matched control/test request pairs. Use when the user wants broken-access-control / IDOR / privilege-escalation / tenant-isolation testing, or runs /audit-access-control.
 ---
 
 # Authorization testing (A/B + control roles)

@@ -1,6 +1,6 @@
 ---
-name: api-surface-audit
-description: Audit the web/API surface of a backend — routes, input handling, injection, SSRF, CORS, headers, and business-logic abuse — with matched control/test requests. Use when the user wants API endpoint security review, OWASP Top 10 web testing, injection/SSRF/CORS checks, or runs /api-surface-audit.
+name: audit-api
+description: Audit the web/API surface of a backend — routes, input handling, injection, SSRF, CORS, headers, and business-logic abuse — with matched control/test requests. Use when the user wants API endpoint security review, OWASP Top 10 web testing, injection/SSRF/CORS checks, or runs /audit-api.
 ---
 
 # API surface audit
@@ -38,7 +38,7 @@ is **not** proof of an externally reachable endpoint — confirm reachability.
 - A failed legitimate control leaves the comparison inconclusive — diagnose endpoint/login/object
   first. A malformed-body `400/422` or wrong URL does not establish correct authorization.
 - `HTTP 200` alone is not proof — inspect the body. Keep horizontal/vertical/tenant results distinct
-  (delegate deep authz cases to `authz-testing`).
+  (delegate deep authz cases to `audit-access-control`).
 - Read-only boundary applies: no fixtures, scripts, or artifacts on disk. No DoS, brute force, or
   broad enumeration. No RCE, deserialization gadgets, or active webshells.
 

@@ -1,6 +1,6 @@
 # Test accounts & authenticated testing (shared rule)
 
-Referenced by `authz-testing` and the orchestrator. Static code review is **not** a
+Referenced by `audit-access-control` and the orchestrator. Static code review is **not** a
 substitute for real authenticated runtime tests.
 
 ## Accounts to request (one grouped request)

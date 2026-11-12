@@ -1,6 +1,6 @@
 ---
-name: backend-security-audit
-description: Run an authorized, evidence-based backend security audit of an existing project and produce one reproducible report. Use when the user asks to audit, pentest, or security-review a backend (any stack), or runs /backend-security-audit. Stack-agnostic; read-only; delegates to focused security skills.
+name: audit-backend
+description: Run an authorized, evidence-based backend security audit of an existing project and produce one reproducible report. Use when the user asks to audit, pentest, or security-review a backend (any stack), or runs /audit-backend. Stack-agnostic; read-only; delegates to focused security skills.
 ---
 
 # Backend security audit (orchestrator)
@@ -46,10 +46,10 @@ summary must be marked **`PARTIAL AUDIT`**.
    stable IDs (`WF-001`), map each to endpoints and A–Q blocks. Missing access is a blocker,
    not a reason to drop a workflow.
 5. **Delegate the focused work** to the companion skills, feeding each the shared rules:
-   - `authz-testing` — horizontal/vertical/tenant authorization and field-permission tests.
-   - `api-surface-audit` — routes, input handling, injection, SSRF, CORS, business logic.
-   - `upload-storage-security` — upload → storage → processing → serving, archive extraction.
-   - `dependency-supply-chain` — dependencies, lockfiles, runtime versions, CI/CD, secrets.
+   - `audit-access-control` — horizontal/vertical/tenant authorization and field-permission tests.
+   - `audit-api` — routes, input handling, injection, SSRF, CORS, business logic.
+   - `audit-uploads` — upload → storage → processing → serving, archive extraction.
+   - `audit-dependencies` — dependencies, lockfiles, runtime versions, CI/CD, secrets.
    Each returns findings and evidence to fold into the single report; do not duplicate captures.
 6. **Real tests.** Static review alone is insufficient. Run operation-level authz tests and
    full end-to-end workflow runs with A/B and control roles, using matched control/test pairs

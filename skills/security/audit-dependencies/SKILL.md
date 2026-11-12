@@ -1,6 +1,6 @@
 ---
-name: dependency-supply-chain
-description: Audit a backend's dependencies, lockfiles, runtime/framework versions, CI/CD build pipeline, and secret exposure for supply-chain risk — read-only, no installs or auto-fixers. Use when the user wants a dependency/SCA/supply-chain or CI/CD security review, or runs /dependency-supply-chain.
+name: audit-dependencies
+description: Audit a backend's dependencies, lockfiles, runtime/framework versions, CI/CD build pipeline, and secret exposure for supply-chain risk — read-only, no installs or auto-fixers. Use when the user wants a dependency/SCA/supply-chain or CI/CD security review, or runs /audit-dependencies.
 ---
 
 # Dependency & supply-chain audit
