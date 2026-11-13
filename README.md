@@ -132,6 +132,7 @@ reproducible audit that reasons about authorization and workflows.
 ```
 .agents/
   install-block.md          # canonical install wording; README copies it
+  plugins/marketplace.json  # Codex marketplace catalog entry
 .claude-plugin/             # Claude Code manifests
   marketplace.json
   plugin.json

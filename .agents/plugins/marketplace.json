@@ -1,0 +1,21 @@
+{
+  "name": "lochinbekdev",
+  "interface": {
+    "displayName": "lochinbekdev security skills"
+  },
+  "plugins": [
+    {
+      "name": "lochinbekdev-security",
+      "description": "Small, composable security-audit skills: backend audit orchestrator plus focused skills for authorization testing, API surface, upload/storage, and dependency supply chain. Evidence-based reports in a fixed standard.",
+      "category": "Developer Tools",
+      "source": {
+        "source": "local",
+        "path": "./"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_USE"
+      }
+    }
+  ]
+}
