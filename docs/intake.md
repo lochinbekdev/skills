@@ -44,6 +44,40 @@ Start real HTTP tests and mutations only after an explicit go ("boshla" / "start
 Until then, continue only read-only analysis. If the user changes scope mid-run, re-confirm
 before testing the changed part.
 
+## Depth: quick, standard, deep
+
+An audit has a budget — tokens, time, request rate. Agree the depth in Phase 2 (default
+**standard**) and state it in the report's scope section, so a shallow run never reads as a
+thorough one:
+
+| Depth | What runs | Use when |
+|---|---|---|
+| `quick` | Static only. Recon, then the highest-risk blocks: authentication, authorization, injection, secrets. No live requests. | A first look, a small budget, or no environment. |
+| `standard` | Every applicable skill, static plus live tests on the highest-risk workflows, with the agreed accounts. | The default. |
+| `deep` | Every applicable skill, every workflow and branch end to end, all role handoffs, tooling breadth. | A release gate or a formal audit. |
+
+Whatever the depth, **order the work by risk** — authentication and authorization first, then
+injection and uploads, then dependencies and configuration — and **protect the report**: if a
+limit (tokens, time, quota, rate) is approaching, stop testing and write the report with what
+is established. An audit that runs out of budget with no report has delivered nothing. Every
+block not reached is `not-tested — budget`, and the title carries `PARTIAL AUDIT`.
+
+## Scope: full or diff
+
+Default scope is the whole in-scope system. When the user asks to audit **a change** — a pull
+request, a branch, a commit range — use **diff scope** instead:
+
+1. Establish the range (`git diff --name-status <base>...<head>`, read-only) and state it.
+2. Audit the changed code **and what it reaches**: a changed controller pulls in its routes,
+   middleware, policies and the models it writes; a changed dependency pulls in its advisories.
+   A diff read without its call sites misses the authorization check that was never added.
+3. Report only findings **introduced or exposed by the change**. A pre-existing problem the
+   change merely touches is listed separately as `pre-existing`, not attributed to it.
+4. Coverage blocks untouched by the change are `not-tested — outside diff scope`.
+
+Diff scope is `quick` or `standard` depth; it has no live-test obligation unless the user
+supplies an environment running the changed code.
+
 ## When to skip the interview
 A skill that needs no live access or test data — it only reads the repo already in scope —
 runs directly without phases 2–4 (e.g. `audit-dependencies`). It still respects the

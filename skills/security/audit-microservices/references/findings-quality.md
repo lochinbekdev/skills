@@ -21,8 +21,9 @@ Every finding carries an explicit **confidence**: `confirmed` (independently rep
 - Separate **observed impact** from **theoretical impact**; never upgrade severity on theory.
 
 ## Determinism & reproducibility
-- Give every finding a **stable ID** (`SA-001`) and every test/evidence a stable ID, so two
-  runs can be diffed and a finding tracked across re-audits.
+- Give every finding a **stable ID** with its skill's prefix (`SA-001` for the orchestrator,
+  `AC-001`, `API-001`, … — see `report-standard.md`) and every test/evidence a stable ID, so
+  two runs can be diffed and a finding tracked across re-audits and retests.
 - Record the exact request/response, actor identity, and changed factor for each result, so
   anyone can replay it. Coverage is a matrix (reviewed/tested/n-a/not-tested), not a sample.
 
@@ -33,6 +34,41 @@ When it is produced, emit a findings file so results gate pipelines and feed das
 - Prefer **SARIF 2.1.0** (`*.sarif`) — rule id, level, message, location, and a partial
   fingerprint from the stable finding ID. Fall back to a documented JSON array.
 - Keep it in sync with the Markdown findings; the Markdown stays the human source of truth.
+- Minimal shape — one `rules` entry and one `results` entry per finding, `ruleId` equal to the
+  stable finding ID, confidence and coverage block under `properties`:
+
+  ```json
+  {
+    "$schema": "https://json.schemastore.org/sarif-2.1.0.json",
+    "version": "2.1.0",
+    "runs": [{
+      "tool": {"driver": {
+        "name": "lochinbekdev-security",
+        "version": "<plugin version>",
+        "rules": [{
+          "id": "AC-001",
+          "shortDescription": {"text": "District user reads another district's organizations"},
+          "properties": {"security-severity": "6.5", "cwe": "CWE-639"}
+        }]
+      }},
+      "results": [{
+        "ruleId": "AC-001",
+        "level": "warning",
+        "message": {"text": "The option query ignores the forced district scope."},
+        "locations": [{"physicalLocation": {
+          "artifactLocation": {"uri": "app/Services/OrganizationService.php"},
+          "region": {"startLine": 53}
+        }}],
+        "partialFingerprints": {"findingId/v1": "AC-001"},
+        "properties": {"confidence": "likely", "coverageBlock": "F", "status": "open"}
+      }]
+    }]
+  }
+  ```
+
+  `level` maps from severity: `critical`/`high` → `error`, `medium` → `warning`,
+  `low`/`info` → `note`. Paths are relative to the audited root. No secret values, tokens or
+  hostnames outside the agreed scope anywhere in the file.
 - This export is a permitted deliverable **only** when the user agrees its path, under the
   same write-boundary rules as the report.
 

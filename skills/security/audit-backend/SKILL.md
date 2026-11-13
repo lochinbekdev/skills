@@ -27,11 +27,15 @@ them, and you state in the report which references you could not read:
 
 1. **Authorized scope only.** A host, domain, IP or credential found in the repo does not
    authorize testing it. Live requests and mutations need an explicit "boshla"/"go".
-2. **Read-only.** The audit writes exactly one file, the report. No fixes, no installs, no
-   migrations, no seeds, no auto-fixers. Record `git status` before and after.
+2. **Read-only.** The audit writes exactly one file, the report (delegated companions write
+   none; where nothing can be written, the report is the final message). No fixes, installs,
+   migrations, seeds or auto-fixers; no REPL or database client without explicit
+   authorization; a `GET` whose handler writes is a mutation. Record `git status` before and
+   after.
 3. **Evidence or nothing.** `HTTP 200` is not proof. Every claim carries a `path:line` or a
    matched control/test request pair; every mutation gets a separate read and a verified
-   rollback; every finding carries `confirmed` / `likely` / `unconfirmed`.
+   rollback; every finding carries `confirmed` / `likely` / `unconfirmed`. Credentials and
+   tokens never appear in the report or the chat.
 4. **Inventory is not the deliverable.** Summarise with counts, cap any inventory table at 30
    rows, and never paste file trees, directory listings or raw tool output as a section.
 5. **Incomplete means `PARTIAL AUDIT`.** If a required test did not run, say so in the title
@@ -61,14 +65,16 @@ summary must be marked **`PARTIAL AUDIT`**.
    IP, or credential found in the repo does **not** authorize testing it.
 3. **Technology profile & inventory.** Record exact runtime/framework versions, dependencies
    and lock references, datastores, auth model, tenant boundaries, proxy/WAF, containers/CI,
-   Routes may be registered by attributes/annotations, not in route files, so inventory
-   controllers too; confirm reachability with read-only introspection (`php artisan
-   route:list`, `rails routes`) per `references/write-boundary.md` rather than guessing.
    and integrations. Inventory every route, controller/service/model, middleware/policy,
-   job, CLI, config, and migration. Tabulate in the report. Mark unknowns.
+   job, CLI, config, and migration; summarise it in the report as counts and capped tables,
+   and mark unknowns. Routes may be registered by attributes/annotations rather than in route
+   files, so inventory controllers too, and confirm reachability with read-only introspection
+   (`php artisan route:list`, `rails routes`) per `references/write-boundary.md` rather than
+   guessing.
 4. **Business workflow inventory.** Identify **every** workflow (ordinary ones too). Assign
-   stable IDs (`WF-001`), map each to endpoints and A–Q blocks. Missing access is a blocker,
-   not a reason to drop a workflow.
+   stable IDs (`WF-001`), map each to endpoints and to the coverage blocks A–Q defined in
+   `references/report-standard.md`. Missing access is a blocker, not a reason to drop a
+   workflow.
 5. **Delegate the focused work.** Spawn **one agent per companion skill** and run them in
    parallel, giving each the scope, accounts and shared rules, and asking each to return
    findings plus evidence. Harnesses expose this differently — a sub-agent tool, or a plain
@@ -76,7 +82,12 @@ summary must be marked **`PARTIAL AUDIT`**.
    mechanism exists, you run every applicable companion skill yourself, one after another,
    each in full** (read its `SKILL.md` and perform its checks); skipping them and reporting
    your own recon instead is not an audit. Either way, name in the report which skills ran
-   and how. The companions:
+   and how. Work in **risk order** — authentication and authorization first — and at `quick`
+   depth run only the companions that depth names (`references/intake.md`). Tell each
+   companion it is delegated: it writes no file and returns findings under its own ID prefix
+   (`references/report-standard.md`, "Returning findings as a delegated companion"). The
+   companions:
+   - `audit-authn` — login, sessions and tokens, password reset, MFA, SSO/OAuth.
    - `audit-access-control` — horizontal/vertical/tenant authorization and field-permission tests.
    - `audit-api` — routes, input handling, injection, SSRF, CORS, business logic.
    - `audit-uploads` — upload → storage → processing → serving, archive extraction.
@@ -92,14 +103,33 @@ summary must be marked **`PARTIAL AUDIT`**.
 7. **Augment with tools.** Widen breadth with existing safe scanners (read-only, stdout only)
    and fetch dependency CVEs from a live advisory source, per `references/tooling.md`. Treat tool
    output as leads, then confirm manually. Never install or auto-fix.
-8. **Coverage & A–Q.** For every inventory item and every A–Q block, mark reviewed / tested /
-   not-applicable / not-tested with a reason. Do not claim coverage from sampling.
+8. **Coverage & A–Q.** For every coverage block A–Q (`references/report-standard.md`), mark
+   tested / reviewed / not-applicable / not-tested with a reason. Block Q — error handling,
+   logging, debug surfaces, rate limiting — is the orchestrator's own. Do not claim coverage
+   from sampling.
 9. **Qualify findings.** Give each finding a stable ID and a confidence (`confirmed`/`likely`/
    `unconfirmed`), and challenge it for false positives per `references/findings-quality.md`.
 10. **Report.** Write the single report per the standard (English by default). Keep a progress
    ledger inside it so the audit can resume. When asked or in CI, also emit the SARIF/JSON
    export to an agreed path. End the chat with report path, status, main confirmed results,
    workflow counts, and blockers — no sensitive evidence in chat.
+
+## Budget
+Agree a depth — `quick`, `standard` (default) or `deep` — per `references/intake.md`, and
+state it in the report. **Protect the report:** start it early with the baseline and scope,
+keep its progress ledger current, and if a token, time, quota or rate limit is approaching,
+stop testing and finish the report with what is established. Blocks not reached are
+`not-tested — budget` and the title is `PARTIAL AUDIT`. A run that ends with no report has
+delivered nothing.
+
+## Scope: a change instead of the whole system
+Asked to audit a pull request, branch or commit range, use **diff scope**
+(`references/intake.md`): audit the changed code and what it reaches, report only what the
+change introduced or exposed, and list pre-existing problems separately.
+
+## After fixes
+To verify fixes against an earlier report, use `audit-retest` rather than a fresh audit: it
+replays each finding's reproduction and reports `fixed` / `still-open` / `regressed`.
 
 ## CI / non-interactive mode
 When scope, environment, and accounts are supplied up front (flags/env/config), skip the

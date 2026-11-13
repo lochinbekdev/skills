@@ -17,11 +17,15 @@ them, and you state in the report which references you could not read:
 
 1. **Authorized scope only.** A host, domain, IP or credential found in the repo does not
    authorize testing it. Live requests and mutations need an explicit "boshla"/"go".
-2. **Read-only.** The audit writes exactly one file, the report. No fixes, no installs, no
-   migrations, no seeds, no auto-fixers. Record `git status` before and after.
+2. **Read-only.** The audit writes exactly one file, the report (delegated companions write
+   none; where nothing can be written, the report is the final message). No fixes, installs,
+   migrations, seeds or auto-fixers; no REPL or database client without explicit
+   authorization; a `GET` whose handler writes is a mutation. Record `git status` before and
+   after.
 3. **Evidence or nothing.** `HTTP 200` is not proof. Every claim carries a `path:line` or a
    matched control/test request pair; every mutation gets a separate read and a verified
-   rollback; every finding carries `confirmed` / `likely` / `unconfirmed`.
+   rollback; every finding carries `confirmed` / `likely` / `unconfirmed`. Credentials and
+   tokens never appear in the report or the chat.
 4. **Inventory is not the deliverable.** Summarise with counts, cap any inventory table at 30
    rows, and never paste file trees, directory listings or raw tool output as a section.
 5. **Incomplete means `PARTIAL AUDIT`.** If a required test did not run, say so in the title

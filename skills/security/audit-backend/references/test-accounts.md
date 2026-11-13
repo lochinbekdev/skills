@@ -21,6 +21,18 @@ substitute for real authenticated runtime tests.
 6. Which create/update/delete/transition/field/rollback actions are authorized per object,
    with agreed small test values, original states, and restoration method.
 
+## Receiving and handling credentials
+- **Ask for credentials out of band, not in chat.** Request an environment variable or a path
+  to a file outside the repository (e.g. `AUDIT_USER_A`, `AUDIT_PASS_A`, or an untracked
+  `.env.audit`) and read it from there. A password typed into the conversation is in the
+  transcript for good; if the user sends one anyway, use it, do not repeat it, and recommend
+  rotating it after the audit.
+- **Never write a credential, token, cookie or session ID** into the report, the export, a
+  command line that gets logged, or the chat. Evidence shows `Authorization: Bearer <A-token>`,
+  never the value. Refer to accounts by role and letter (A, B, control-approver).
+- Test accounts should exist only for the audit and be disabled or rotated afterwards; say so
+  in the report's remediation roadmap.
+
 ## Rules
 - Reach every account through **normal login**. Never edit roles in the DB, fabricate or
   forge tokens, or bypass auth to set up a test.

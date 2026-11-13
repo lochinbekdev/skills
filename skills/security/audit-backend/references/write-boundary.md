@@ -37,6 +37,22 @@ project it inspects. These rules are referenced by every security skill.
 - Persistent browser profiles, storage-state, screenshots, videos, HAR, traces, or
   downloads. Use isolated, nonpersistent contexts or mark the check blocked.
 
+## Things that look read-only and are not
+
+- **REPLs and database clients execute project code or reach real data.** `php artisan tinker`,
+  `rails console`, `python manage.py shell`, `psql`, `mysql`, `redis-cli` and the like are
+  **forbidden unless the user authorized that exact tool against that exact database** in the
+  intake. A read-only query is still a connection to data nobody agreed to expose, and a REPL
+  boots the application with every side effect that implies. Without authorization, establish
+  the fact from code and migrations, or mark it `blocked`.
+- **A `GET` is not safe because it is a `GET`.** Before sending any request, read its handler.
+  One that writes a row, dispatches a job, sends a message, deletes a file after serving it,
+  or advances state is a **mutation**, whatever its verb: it needs the same authorization as a
+  `POST`, and under a "GET only" scope it is out of scope. Record such routes as a finding
+  (unsafe method, CWE-650) rather than calling them.
+- **Introspection that warms a cache or writes a log** is a write. If `route:list` or its
+  equivalent cannot run without touching disk, use a no-write flag or mark it `blocked`.
+
 ## Baseline check
 Before any write or test, record project root, time/zone, current commit, and
 `git status --porcelain=v1 --untracked-files=all`. Repeat at the end and compare.
