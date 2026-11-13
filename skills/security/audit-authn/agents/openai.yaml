@@ -1,0 +1,4 @@
+interface:
+  display_name: "Audit: Authentication"
+  short_description: "Login, session, token, reset, MFA and SSO audit"
+  default_prompt: "Use $audit-authn to audit authentication and sessions"

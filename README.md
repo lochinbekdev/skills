@@ -70,15 +70,28 @@ point an `AGENTS.md` at a skill's `SKILL.md`, or paste it into the conversation.
 | Skill | Invocation | Scope |
 |---|---|---|
 | `audit-backend` | user only | Orchestrator — runs a full, stack-agnostic backend audit and writes the single report. |
+| `audit-authn` | model or user | Login, credential handling, password reset, MFA, JWT/session lifecycle, SSO/OAuth, service-issued user tokens. |
 | `audit-access-control` | model or user | Horizontal / vertical / cross-tenant authorization and field-permission tests with A/B accounts. |
 | `audit-api` | model or user | Routes, injection, SSRF, CORS, headers, and business-logic abuse. |
 | `audit-uploads` | model or user | Upload → storage → processing → serving, archive extraction (zip-slip), download authz. |
 | `audit-dependencies` | model or user | Dependencies, lockfiles, runtime versions, CI/CD, and secret exposure (read-only). |
 | `audit-microservices` | model or user | Inter-service dependency map and trust-boundary audit: s2s authn/authz, identity/tenant propagation, network exposure, SSRF pivots, queues, shared DBs. |
+| `audit-retest` | model or user | Verifies fixes against an earlier report: replays each finding and reports fixed / partially-fixed / still-open / regressed. |
 
 An audit sends live requests against a real system, so the orchestrator never starts on the
 model's own initiative: a human names it. The focused skills stay reachable by name or by
 description, because the orchestrator calls them.
+
+### Depth and scope
+
+- **Depth** — `quick` (static, highest-risk areas), `standard` (default: every applicable
+  skill, live tests on the riskiest workflows) or `deep` (every workflow and role handoff).
+  Whatever the depth, the report is protected: when a token, time or quota limit approaches,
+  testing stops and the report is written with what is established.
+- **Diff scope** — ask for an audit of a pull request, branch or commit range and the skills
+  review the changed code and what it reaches, reporting only what the change introduced.
+- **Retest** — after fixes, `audit-retest` replays the earlier report's findings instead of
+  starting over.
 
 ## Shared standards (`docs/`)
 
@@ -147,6 +160,7 @@ prefix. Vulnerabilities in the skills themselves: [SECURITY.md](./SECURITY.md). 
   plugin.json
 .codex-plugin/              # Codex plugin manifest (publisher, category, prompts)
   plugin.json
+evals/                      # regression cases for `claude plugin eval`
 docs/
   intake.md
   report-standard.md
@@ -157,6 +171,7 @@ docs/
   harness-notes.md          # what differs between agents, from real runs
 scripts/
   validate-repo.py          # names, descriptors, manifests, reference sync
+  validate-sarif.py         # checks a findings export against the promised shape
   link-skills.sh            # link skills into ~/.agents/skills and ~/.claude/skills
   sync-docs.sh              # copy the shared standards into each skill's references/
 skills/
@@ -164,11 +179,13 @@ skills/
     audit-backend/
       SKILL.md
       agents/openai.yaml    # Codex / OpenAI interface descriptor
+    audit-authn/{SKILL.md, agents/openai.yaml}
     audit-access-control/{SKILL.md, agents/openai.yaml}
     audit-api/{SKILL.md, agents/openai.yaml}
     audit-uploads/{SKILL.md, agents/openai.yaml}
     audit-dependencies/{SKILL.md, agents/openai.yaml}
     audit-microservices/{SKILL.md, agents/openai.yaml}
+    audit-retest/{SKILL.md, agents/openai.yaml}
 ```
 
 ## Roadmap
@@ -177,8 +194,8 @@ skills/
   with the standard report and SARIF/JSON export.
 - **Next:** run the Codex plugin install end to end once the manifest is on the default
   branch, then record it in [`.agents/install-block.md`](./.agents/install-block.md).
-- **Next:** repo tooling (skill validation against the Codex and Claude schemas) and CI eval
-  cases as the set grows.
+- **Next:** eval cases for live behaviour — delegation, the "go" gate, rollback — which need a
+  disposable target application rather than code in a prompt.
 
 ## License
 

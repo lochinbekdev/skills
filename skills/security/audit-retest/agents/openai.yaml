@@ -1,0 +1,4 @@
+interface:
+  display_name: "Audit: Retest"
+  short_description: "Verify fixes against an earlier audit report"
+  default_prompt: "Use $audit-retest to verify the fixes for the last audit report"

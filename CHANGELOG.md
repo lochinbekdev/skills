@@ -3,6 +3,41 @@
 Notable changes per release. Versions are the `version` field in
 `.claude-plugin/plugin.json` and `.codex-plugin/plugin.json`, which must agree.
 
+## 0.4.0 — 2026-11-13
+
+New skills:
+
+- **`audit-authn`** — login, credential handling, password reset, MFA, JWT and session
+  lifecycle, SSO/OAuth, and service-issued user tokens. The most serious findings in the
+  baseline runs were authentication flaws that no skill owned.
+- **`audit-retest`** — verifies fixes against an earlier report: replays each finding's
+  original reproduction, challenges the fix with its variants, and reports `fixed`,
+  `partially-fixed`, `still-open` or `regressed` under the original IDs.
+
+New capabilities:
+
+- **Depth** (`quick` / `standard` / `deep`) agreed at intake, with work ordered by risk and
+  the report protected: when a limit approaches, testing stops and the report is written.
+  A Codex run had spent its whole quota without producing one.
+- **Diff scope** — audit a pull request, branch or commit range instead of the whole system.
+- **Coverage blocks A–Q are now defined**, each with an owning skill. The orchestrator had
+  been referring to them without any definition existing.
+- **Delegation contract** — a delegated companion writes no file and returns findings under
+  its own ID prefix (`AUTHN-`, `AC-`, `API-`, `UP-`, `DEP-`, `MS-`), so parallel companions
+  cannot collide.
+- A minimal **SARIF example** in the findings standard, and `scripts/validate-sarif.py`.
+- **Evals** under `evals/`, run with `claude plugin eval`.
+
+Tightened rules:
+
+- REPLs and database clients (`tinker`, `rails console`, `psql`, …) need explicit
+  authorization; a run had read role data straight from a database nobody had agreed to expose.
+- A `GET` whose handler writes, dispatches or deletes is a mutation, out of scope under
+  "GET only" and reportable as an unsafe method.
+- Credentials are requested out of band, never repeated, never written to the report.
+- With nowhere to write, the complete report is delivered as the final message.
+- Fixed a garbled sentence in the orchestrator's inventory step.
+
 ## 0.3.1 — 2026-11-13
 
 - Codex catalog keys (`policy.installation`, `policy.authentication`, `category`) move out of
