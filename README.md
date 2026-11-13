@@ -15,7 +15,7 @@ standards so every audit behaves the same way.
 /plugin install lochinbekdev-security@lochinbekdev
 ```
 
-Then run a skill, e.g. `/audit-backend`, or just ask the agent to "audit this backend".
+Then run a skill, e.g. `/lochinbekdev-audit-backend`, or just ask the agent to "audit this backend".
 
 ### OpenAI Codex / other agents
 
@@ -37,12 +37,12 @@ Codex then discovers them from `~/.agents/skills`. You can also just point your
 
 | Skill | Scope |
 |---|---|
-| `audit-backend` | Orchestrator — runs a full, stack-agnostic backend audit and writes the single report. |
-| `audit-access-control` | Horizontal / vertical / cross-tenant authorization and field-permission tests with A/B accounts. |
-| `audit-api` | Routes, injection, SSRF, CORS, headers, and business-logic abuse. |
-| `audit-uploads` | Upload → storage → processing → serving, archive extraction (zip-slip), download authz. |
-| `audit-dependencies` | Dependencies, lockfiles, runtime versions, CI/CD, and secret exposure (read-only). |
-| `audit-microservices` | Inter-service dependency map and trust-boundary audit: s2s authn/authz, identity/tenant propagation, network exposure, SSRF pivots, queues, shared DBs. |
+| `lochinbekdev-audit-backend` | Orchestrator — runs a full, stack-agnostic backend audit and writes the single report. |
+| `lochinbekdev-audit-access-control` | Horizontal / vertical / cross-tenant authorization and field-permission tests with A/B accounts. |
+| `lochinbekdev-audit-api` | Routes, injection, SSRF, CORS, headers, and business-logic abuse. |
+| `lochinbekdev-audit-uploads` | Upload → storage → processing → serving, archive extraction (zip-slip), download authz. |
+| `lochinbekdev-audit-dependencies` | Dependencies, lockfiles, runtime versions, CI/CD, and secret exposure (read-only). |
+| `lochinbekdev-audit-microservices` | Inter-service dependency map and trust-boundary audit: s2s authn/authz, identity/tenant propagation, network exposure, SSRF pivots, queues, shared DBs. |
 
 ## Shared standards (`docs/`)
 
@@ -82,7 +82,7 @@ business-logic workflows** with real A/B accounts and matched control/test pairs
 - **SAST** (Semgrep, SonarQube): great for code patterns; blind to runtime authorization/tenancy.
 - **DAST** (StackHawk, NightVision, 42Crunch): great for crawl/fuzz; weak on business logic and
   per-object ownership. These skills test it deliberately, without enumeration or DoS.
-- **SCA** (Sonatype, Endor, JFrog): deep dependency graphs; `audit-dependencies` queries live OSV
+- **SCA** (Sonatype, Endor, JFrog): deep dependency graphs; `lochinbekdev-audit-dependencies` queries live OSV
   data and existing audit tools read-only, then confirms manually.
 
 Use a scanner for continuous, automated breadth; use these skills for a careful, authorized,
@@ -106,19 +106,19 @@ scripts/
   sync-docs.sh              # copy docs/*.md into each skill's references/ (keeps skills self-contained)
 skills/
   security/
-    audit-backend/
+    lochinbekdev-audit-backend/
       SKILL.md
       agents/openai.yaml    # Codex / OpenAI interface descriptor
-    audit-access-control/{SKILL.md, agents/openai.yaml}
-    audit-api/{SKILL.md, agents/openai.yaml}
-    audit-uploads/{SKILL.md, agents/openai.yaml}
-    audit-dependencies/{SKILL.md, agents/openai.yaml}
-    audit-microservices/{SKILL.md, agents/openai.yaml}
+    lochinbekdev-audit-access-control/{SKILL.md, agents/openai.yaml}
+    lochinbekdev-audit-api/{SKILL.md, agents/openai.yaml}
+    lochinbekdev-audit-uploads/{SKILL.md, agents/openai.yaml}
+    lochinbekdev-audit-dependencies/{SKILL.md, agents/openai.yaml}
+    lochinbekdev-audit-microservices/{SKILL.md, agents/openai.yaml}
 ```
 
 ## Roadmap
 
-- **Shipped:** `audit-microservices` — inter-service dependency map and trust-boundary audit,
+- **Shipped:** `lochinbekdev-audit-microservices` — inter-service dependency map and trust-boundary audit,
   with the standard report and SARIF/JSON export.
 - **Next:** repo tooling (versioning, skill validation) and CI eval cases as the set grows.
 - Repo tooling (versioning, skill validation) once the skill set grows.
