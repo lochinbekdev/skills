@@ -127,12 +127,21 @@ business-logic workflows** with real A/B accounts and matched control/test pairs
 Use a scanner for continuous, automated breadth; use these skills for a careful, authorized,
 reproducible audit that reasons about authorization and workflows.
 
+## Contributing
+
+See [CONTRIBUTING.md](./CONTRIBUTING.md) — `docs/` is the single source for the shared
+standards, `python3 scripts/validate-repo.py` is what CI runs, and skill names carry no vendor
+prefix. Vulnerabilities in the skills themselves: [SECURITY.md](./SECURITY.md). Release history:
+[CHANGELOG.md](./CHANGELOG.md).
+
 ## Layout
 
 ```
 .agents/
   install-block.md          # canonical install wording; README copies it
   plugins/marketplace.json  # Codex marketplace catalog entry
+.github/
+  workflows/validate.yml    # runs scripts/validate-repo.py on every push and PR
 .claude-plugin/             # Claude Code manifests
   marketplace.json
   plugin.json
@@ -147,6 +156,7 @@ docs/
   findings-quality.md
   harness-notes.md          # what differs between agents, from real runs
 scripts/
+  validate-repo.py          # names, descriptors, manifests, reference sync
   link-skills.sh            # link skills into ~/.agents/skills and ~/.claude/skills
   sync-docs.sh              # copy the shared standards into each skill's references/
 skills/

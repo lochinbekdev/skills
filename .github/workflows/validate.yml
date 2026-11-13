@@ -1,0 +1,19 @@
+name: validate
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate skills and manifests
+        run: python3 scripts/validate-repo.py
+      - name: Check bundled references are in sync
+        run: |
+          ./scripts/sync-docs.sh
+          git diff --exit-code -- skills/ \
+            || { echo "::error::skills/*/references/ is stale — run scripts/sync-docs.sh and commit"; exit 1; }
