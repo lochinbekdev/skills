@@ -1,5 +1,4 @@
 interface:
   display_name: "Audit: Dependencies"
-  short_description: "Read-only dependency, lockfile, runtime-version, CI/CD, and secret-exposure review."
-policy:
-  allow_implicit_invocation: true
+  short_description: "Dependency, lockfile and CI supply-chain audit"
+  default_prompt: "Use $lochinbekdev-audit-dependencies to audit the supply chain"

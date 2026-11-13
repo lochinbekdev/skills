@@ -16,8 +16,24 @@ TARGETS=(
 )
 
 linked=0
+pruned=0
 for target in "${TARGETS[@]}"; do
   mkdir -p "$target"
+  # Drop links this script created earlier that now dangle, e.g. after a skill
+  # is renamed or removed upstream. Only symlinks into this repo are touched.
+  for link in "$target"/*; do
+    [ -L "$link" ] || continue
+    dest="$(readlink "$link")"
+    case "$dest" in
+      "$SKILLS_DIR"/*)
+        if [ ! -d "$dest" ]; then
+          rm -f "$link"
+          echo "pruned  $link (dangling -> $dest)"
+          pruned=$((pruned + 1))
+        fi
+        ;;
+    esac
+  done
   for skill in "$SKILLS_DIR"/*/; do
     name="$(basename "$skill")"
     link="$target/$name"
@@ -28,4 +44,4 @@ for target in "${TARGETS[@]}"; do
   done
 done
 
-echo "done: $linked symlink(s) created"
+echo "done: $linked symlink(s) created, $pruned pruned"

@@ -1,6 +1,7 @@
 ---
 name: lochinbekdev-audit-backend
 description: Run an authorized, evidence-based backend security audit of an existing project and produce one reproducible report. Use when the user asks to audit, pentest, or security-review a backend (any stack), or runs /lochinbekdev-audit-backend. Stack-agnostic; read-only; delegates to focused security skills.
+disable-model-invocation: true
 ---
 
 # Backend security audit (orchestrator)

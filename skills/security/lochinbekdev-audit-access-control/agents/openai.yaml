@@ -1,5 +1,4 @@
 interface:
   display_name: "Audit: Access Control"
-  short_description: "Horizontal/vertical/cross-tenant authorization and IDOR testing with A/B accounts."
-policy:
-  allow_implicit_invocation: true
+  short_description: "IDOR, privilege and tenant isolation tests"
+  default_prompt: "Use $lochinbekdev-audit-access-control to test authorization"

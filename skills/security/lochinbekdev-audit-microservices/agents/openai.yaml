@@ -1,5 +1,4 @@
 interface:
   display_name: "Audit: Microservices"
-  short_description: "Map inter-service dependencies and audit each trust boundary (s2s authn/authz, identity propagation, SSRF, queues, shared DBs)."
-policy:
-  allow_implicit_invocation: true
+  short_description: "Service trust-boundary map and audit"
+  default_prompt: "Use $lochinbekdev-audit-microservices to audit service boundaries"
