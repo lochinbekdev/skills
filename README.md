@@ -1,48 +1,82 @@
 # lochinbekdev / skills
 
-Small, composable **security** skills for AI agents, installable as a Claude Code plugin —
-like npm/composer/pip, but for agent skills.
+Small, composable **security** skills for AI agents, installable as a plugin in Claude Code
+and Codex — like npm/composer/pip, but for agent skills.
 
 Each skill has a **narrow scope**, its own operating rules, and shares three cross-cutting
 standards so every audit behaves the same way.
 
 ## Install
 
-### Claude Code
+Pick one route per agent — installing two gives you every skill twice. The wording here is
+copied from [`.agents/install-block.md`](./.agents/install-block.md); change it there first.
 
-```
+<details>
+<summary><strong>Claude Code</strong></summary>
+
+```bash
 /plugin marketplace add lochinbekdev/skills
 /plugin install lochinbekdev-security@lochinbekdev
 ```
 
-Then run a skill, e.g. `/lochinbekdev-audit-backend`, or just ask the agent to "audit this backend".
+Updates itself by default. The five focused skills are model-invoked, so "audit the uploads in
+this project" reaches them. The orchestrator is user-invoked — name it:
 
-### OpenAI Codex / other agents
-
-The skills are plain `SKILL.md` instructions, so any agent can use them. Each skill
-ships an `agents/openai.yaml` interface descriptor. Link them into your local agent
-skill directories (`~/.agents/skills` and `~/.claude/skills`) with:
-
+```bash
+/lochinbekdev-security:lochinbekdev-audit-backend
 ```
+
+</details>
+
+<details>
+<summary><strong>OpenAI Codex</strong></summary>
+
+```bash
+codex plugin marketplace add lochinbekdev/skills
+codex plugin add lochinbekdev-security@lochinbekdev
+```
+
+Updates itself at startup. **Restart Codex afterwards**, or the skills stay undiscovered.
+Codex has no per-skill slash command: invoke with `$lochinbekdev-audit-backend`, or run
+`/skills` to browse. For live HTTP testing use an interactive session or `-s workspace-write`;
+under `codex exec -s read-only` every request fails with `Operation not permitted` and the
+audit reports zero executed workflows.
+
+This pair has not been run end to end yet — it needs the manifest on the default branch
+upstream. Until then, use the symlink route below.
+
+</details>
+
+<details>
+<summary><strong>Any other agent, or a local checkout</strong> (manual updates)</summary>
+
+```bash
 git clone https://github.com/lochinbekdev/skills
 cd skills
 ./scripts/link-skills.sh
 ```
 
-Each link points back into the repo, so `git pull` keeps the installed skills current.
-Codex then discovers them from `~/.agents/skills`. You can also just point your
-`AGENTS.md` at a skill's `SKILL.md`, or paste it into the conversation.
+Symlinks every skill into `~/.agents/skills` (Codex and other generic agents) and
+`~/.claude/skills` (Claude Code outside the plugin), pruning links it made earlier that now
+dangle. `git pull` updates them in place; restart the agent to pick up new skills. You can also
+point an `AGENTS.md` at a skill's `SKILL.md`, or paste it into the conversation.
+
+</details>
 
 ## Skills
 
-| Skill | Scope |
-|---|---|
-| `lochinbekdev-audit-backend` | Orchestrator — runs a full, stack-agnostic backend audit and writes the single report. |
-| `lochinbekdev-audit-access-control` | Horizontal / vertical / cross-tenant authorization and field-permission tests with A/B accounts. |
-| `lochinbekdev-audit-api` | Routes, injection, SSRF, CORS, headers, and business-logic abuse. |
-| `lochinbekdev-audit-uploads` | Upload → storage → processing → serving, archive extraction (zip-slip), download authz. |
-| `lochinbekdev-audit-dependencies` | Dependencies, lockfiles, runtime versions, CI/CD, and secret exposure (read-only). |
-| `lochinbekdev-audit-microservices` | Inter-service dependency map and trust-boundary audit: s2s authn/authz, identity/tenant propagation, network exposure, SSRF pivots, queues, shared DBs. |
+| Skill | Invocation | Scope |
+|---|---|---|
+| `lochinbekdev-audit-backend` | user only | Orchestrator — runs a full, stack-agnostic backend audit and writes the single report. |
+| `lochinbekdev-audit-access-control` | model or user | Horizontal / vertical / cross-tenant authorization and field-permission tests with A/B accounts. |
+| `lochinbekdev-audit-api` | model or user | Routes, injection, SSRF, CORS, headers, and business-logic abuse. |
+| `lochinbekdev-audit-uploads` | model or user | Upload → storage → processing → serving, archive extraction (zip-slip), download authz. |
+| `lochinbekdev-audit-dependencies` | model or user | Dependencies, lockfiles, runtime versions, CI/CD, and secret exposure (read-only). |
+| `lochinbekdev-audit-microservices` | model or user | Inter-service dependency map and trust-boundary audit: s2s authn/authz, identity/tenant propagation, network exposure, SSRF pivots, queues, shared DBs. |
+
+An audit sends live requests against a real system, so the orchestrator never starts on the
+model's own initiative: a human names it. The focused skills stay reachable by name or by
+description, because the orchestrator calls them.
 
 ## Shared standards (`docs/`)
 
@@ -60,6 +94,9 @@ Codex then discovers them from `~/.agents/skills`. You can also just point your
   missing data as `Q1/Q2…` questions, explain the plan, and start real testing only on an explicit go.
 - **`docs/tooling.md`** — widen coverage with existing safe scanners (read-only, stdout only) and pull
   dependency CVEs from a live advisory source (OSV), not model memory. Never install or auto-fix.
+- **`docs/harness-notes.md`** — repo-facing, not bundled: how Claude Code and Codex differ in
+  practice (delegation, reference-file access, sandbox network, invocation) and what the skills
+  do about it, recorded from real runs.
 - **`docs/findings-quality.md`** — confidence scoring, false-positive challenge, stable IDs, a SARIF/JSON
   machine export, and a CI / non-interactive mode.
 
@@ -91,8 +128,12 @@ reproducible audit that reasons about authorization and workflows.
 ## Layout
 
 ```
-.claude-plugin/
+.agents/
+  install-block.md          # canonical install wording; README copies it
+.claude-plugin/             # Claude Code manifests
   marketplace.json
+  plugin.json
+.codex-plugin/              # Codex plugin manifest (publisher, category, prompts)
   plugin.json
 docs/
   intake.md
@@ -101,9 +142,10 @@ docs/
   write-boundary.md
   tooling.md
   findings-quality.md
+  harness-notes.md          # what differs between agents, from real runs
 scripts/
   link-skills.sh            # link skills into ~/.agents/skills and ~/.claude/skills
-  sync-docs.sh              # copy docs/*.md into each skill's references/ (keeps skills self-contained)
+  sync-docs.sh              # copy the shared standards into each skill's references/
 skills/
   security/
     lochinbekdev-audit-backend/
@@ -120,8 +162,10 @@ skills/
 
 - **Shipped:** `lochinbekdev-audit-microservices` — inter-service dependency map and trust-boundary audit,
   with the standard report and SARIF/JSON export.
-- **Next:** repo tooling (versioning, skill validation) and CI eval cases as the set grows.
-- Repo tooling (versioning, skill validation) once the skill set grows.
+- **Next:** run the Codex plugin install end to end once the manifest is on the default
+  branch, then record it in [`.agents/install-block.md`](./.agents/install-block.md).
+- **Next:** repo tooling (skill validation against the Codex and Claude schemas) and CI eval
+  cases as the set grows.
 
 ## License
 
