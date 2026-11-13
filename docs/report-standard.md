@@ -52,6 +52,22 @@ ran. This is the shared security report standard for the plugin.
    safe step, outstanding rollback rows, and advisory-only remediation priorities (no fixes
    applied).
 
+## Inventory is not the deliverable
+
+The inventory exists to prove coverage, not to fill the report. It is summarised, never dumped:
+
+- **Aggregate, then cap.** Give counts first (routes, controllers, services, models, jobs,
+  migrations, dependencies). Any inventory table stays at **30 rows or fewer**; past that,
+  group the rest and give the group totals. A full per-item listing goes in an appendix, and
+  only when the user asked for one.
+- **Never paste a file tree, a directory listing, or raw tool output** as a section. Evidence
+  is a `path:line` reference or a sanitized request/response pair, not a listing.
+- **Counts are not coverage.** State inventory counts and executed-test counts separately, and
+  never let the first imply the second.
+- **A report with no findings and no executed tests is not a report.** If nothing could be
+  tested and nothing was traced, say that in one short paragraph with the reason and the
+  blocker, mark it `PARTIAL AUDIT`, and stop. Do not substitute an inventory for results.
+
 ## Adapting the structure per skill
 The sections above are written for a full runtime authorization/workflow audit. A focused or
 static-only run keeps the same skeleton but **marks inapplicable sections `not-applicable`

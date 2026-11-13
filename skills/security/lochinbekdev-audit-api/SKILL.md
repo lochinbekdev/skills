@@ -1,12 +1,30 @@
 ---
 name: lochinbekdev-audit-api
-description: Audit the web/API surface of a backend — routes, input handling, injection, SSRF, CORS, headers, and business-logic abuse — with matched control/test requests. Use when the user wants API endpoint security review, OWASP Top 10 web testing, injection/SSRF/CORS checks, or runs /lochinbekdev-audit-api.
+description: Audit a backend's web/API surface with matched control/test requests. Use for API endpoint review, OWASP Top 10, injection, SSRF, CORS or header checks.
 ---
 
 # API surface audit
 
 Focused skill for the externally reachable web/API surface. Read first:
 `references/intake.md`, `references/test-accounts.md`, `references/write-boundary.md`, `references/report-standard.md`, `references/tooling.md` (SAST/DAST breadth via existing safe scanners), `references/findings-quality.md` (confidence & export).
+
+## Non-negotiable invariants
+
+Some harnesses cannot read a file outside the working directory, so a sandbox may block the
+`references/` files above. They are the full rules; these five hold even when you cannot open
+them, and you state in the report which references you could not read:
+
+1. **Authorized scope only.** A host, domain, IP or credential found in the repo does not
+   authorize testing it. Live requests and mutations need an explicit "boshla"/"go".
+2. **Read-only.** The audit writes exactly one file, the report. No fixes, no installs, no
+   migrations, no seeds, no auto-fixers. Record `git status` before and after.
+3. **Evidence or nothing.** `HTTP 200` is not proof. Every claim carries a `path:line` or a
+   matched control/test request pair; every mutation gets a separate read and a verified
+   rollback; every finding carries `confirmed` / `likely` / `unconfirmed`.
+4. **Inventory is not the deliverable.** Summarise with counts, cap any inventory table at 30
+   rows, and never paste file trees, directory listings or raw tool output as a section.
+5. **Incomplete means `PARTIAL AUDIT`.** If a required test did not run, say so in the title
+   and the summary with the blocker, and never claim the system is secure.
 
 ## How this skill starts
 Follow `references/intake.md`: inventory routes and input handling yourself read-only, then ask

@@ -1,6 +1,6 @@
 ---
 name: lochinbekdev-audit-microservices
-description: Map the inter-service dependencies of a microservice system and audit the security of every trust boundary between services — service-to-service authn/authz, identity and tenant propagation, network exposure, SSRF pivots, queues, and shared datastores. Produces a service dependency map plus the standard report. Use when the user wants a microservice / service-mesh / inter-service / distributed-system security review, or runs /lochinbekdev-audit-microservices.
+description: Map inter-service dependencies and audit every trust boundary: service-to-service authn/authz, identity and tenant propagation, network exposure, SSRF pivots, queues, shared datastores. Use for microservice, service-mesh or distributed-system review.
 ---
 
 # Microservice interdependency & trust-boundary audit
@@ -10,6 +10,24 @@ network. This skill maps which services call which, then audits the security of 
 the gaps scanners miss. Read first: `references/intake.md`, `references/write-boundary.md`,
 `references/test-accounts.md`, `references/report-standard.md`, `references/tooling.md`,
 `references/findings-quality.md`.
+
+## Non-negotiable invariants
+
+Some harnesses cannot read a file outside the working directory, so a sandbox may block the
+`references/` files above. They are the full rules; these five hold even when you cannot open
+them, and you state in the report which references you could not read:
+
+1. **Authorized scope only.** A host, domain, IP or credential found in the repo does not
+   authorize testing it. Live requests and mutations need an explicit "boshla"/"go".
+2. **Read-only.** The audit writes exactly one file, the report. No fixes, no installs, no
+   migrations, no seeds, no auto-fixers. Record `git status` before and after.
+3. **Evidence or nothing.** `HTTP 200` is not proof. Every claim carries a `path:line` or a
+   matched control/test request pair; every mutation gets a separate read and a verified
+   rollback; every finding carries `confirmed` / `likely` / `unconfirmed`.
+4. **Inventory is not the deliverable.** Summarise with counts, cap any inventory table at 30
+   rows, and never paste file trees, directory listings or raw tool output as a section.
+5. **Incomplete means `PARTIAL AUDIT`.** If a required test did not run, say so in the title
+   and the summary with the blocker, and never claim the system is secure.
 
 ## How this skill starts
 Follow `references/intake.md`:

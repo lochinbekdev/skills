@@ -1,6 +1,6 @@
 ---
 name: lochinbekdev-audit-backend
-description: Run an authorized, evidence-based backend security audit of an existing project and produce one reproducible report. Use when the user asks to audit, pentest, or security-review a backend (any stack), or runs /lochinbekdev-audit-backend. Stack-agnostic; read-only; delegates to focused security skills.
+description: Authorized, evidence-based security audit of one existing backend, producing a single reproducible report. Stack-agnostic, read-only, delegates to the focused security skills.
 disable-model-invocation: true
 ---
 
@@ -18,6 +18,24 @@ Follow these shared rules exactly — read them before acting:
 - `references/report-standard.md` — the one deliverable, its structure, and output location (**report in English by default**).
 - `references/tooling.md` — widen coverage with existing safe scanners (read-only) and live CVE data, not model memory.
 - `references/findings-quality.md` — confidence scoring, false-positive challenge, stable IDs, SARIF/JSON export, CI mode.
+
+## Non-negotiable invariants
+
+Some harnesses cannot read a file outside the working directory, so a sandbox may block the
+`references/` files above. They are the full rules; these five hold even when you cannot open
+them, and you state in the report which references you could not read:
+
+1. **Authorized scope only.** A host, domain, IP or credential found in the repo does not
+   authorize testing it. Live requests and mutations need an explicit "boshla"/"go".
+2. **Read-only.** The audit writes exactly one file, the report. No fixes, no installs, no
+   migrations, no seeds, no auto-fixers. Record `git status` before and after.
+3. **Evidence or nothing.** `HTTP 200` is not proof. Every claim carries a `path:line` or a
+   matched control/test request pair; every mutation gets a separate read and a verified
+   rollback; every finding carries `confirmed` / `likely` / `unconfirmed`.
+4. **Inventory is not the deliverable.** Summarise with counts, cap any inventory table at 30
+   rows, and never paste file trees, directory listings or raw tool output as a section.
+5. **Incomplete means `PARTIAL AUDIT`.** If a required test did not run, say so in the title
+   and the summary with the blocker, and never claim the system is secure.
 
 ## How this skill starts
 Do **not** jump straight into testing. Follow `references/intake.md`:
@@ -51,14 +69,22 @@ summary must be marked **`PARTIAL AUDIT`**.
 4. **Business workflow inventory.** Identify **every** workflow (ordinary ones too). Assign
    stable IDs (`WF-001`), map each to endpoints and A–Q blocks. Missing access is a blocker,
    not a reason to drop a workflow.
-5. **Delegate the focused work** to the companion skills, feeding each the shared rules:
+5. **Delegate the focused work.** Spawn **one agent per companion skill** and run them in
+   parallel, giving each the scope, accounts and shared rules, and asking each to return
+   findings plus evidence. Harnesses expose this differently — a sub-agent tool, or a plain
+   instruction to delegate in parallel — so use whichever this one offers. **If no sub-agent
+   mechanism exists, you run every applicable companion skill yourself, one after another,
+   each in full** (read its `SKILL.md` and perform its checks); skipping them and reporting
+   your own recon instead is not an audit. Either way, name in the report which skills ran
+   and how. The companions:
    - `lochinbekdev-audit-access-control` — horizontal/vertical/tenant authorization and field-permission tests.
    - `lochinbekdev-audit-api` — routes, input handling, injection, SSRF, CORS, business logic.
    - `lochinbekdev-audit-uploads` — upload → storage → processing → serving, archive extraction.
    - `lochinbekdev-audit-dependencies` — dependencies, lockfiles, runtime versions, CI/CD, secrets.
    - `lochinbekdev-audit-microservices` — inter-service dependency map and trust-boundary audit (use when the
      system is multi-service: s2s authn/authz, identity/tenant propagation, SSRF pivots, queues).
-   Each returns findings and evidence to fold into the single report; do not duplicate captures.
+   Each returns findings and evidence to fold into the single report; do not duplicate
+   captures. A companion that returns nothing is a blocker to record, not a silent gap.
 6. **Real tests.** Static review alone is insufficient. Run operation-level authz tests and
    full end-to-end workflow runs with A/B and control roles, using matched control/test pairs
    (`references/test-accounts.md`). `HTTP 200` is not proof; every mutation needs a separate read and
