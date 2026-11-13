@@ -1,0 +1,4 @@
+interface:
+  display_name: "Audit: Microservices"
+  short_description: "Service trust-boundary map and audit"
+  default_prompt: "Use $audit-microservices to audit service boundaries"

@@ -1,4 +1,0 @@
-interface:
-  display_name: "Audit: Access Control"
-  short_description: "IDOR, privilege and tenant isolation tests"
-  default_prompt: "Use $lochinbekdev-audit-access-control to test authorization"

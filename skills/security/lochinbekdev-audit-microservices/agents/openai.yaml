@@ -1,4 +1,0 @@
-interface:
-  display_name: "Audit: Microservices"
-  short_description: "Service trust-boundary map and audit"
-  default_prompt: "Use $lochinbekdev-audit-microservices to audit service boundaries"

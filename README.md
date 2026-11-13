@@ -23,8 +23,10 @@ Updates itself by default. The five focused skills are model-invoked, so "audit 
 this project" reaches them. The orchestrator is user-invoked — name it:
 
 ```bash
-/lochinbekdev-security:lochinbekdev-audit-backend
+/lochinbekdev-security:audit-backend
 ```
+
+Installed outside the plugin (the symlink route below), the same skill is `/audit-backend`.
 
 </details>
 
@@ -37,8 +39,8 @@ codex plugin add lochinbekdev-security@lochinbekdev
 ```
 
 Updates itself at startup. **Restart Codex afterwards**, or the skills stay undiscovered.
-Codex has no per-skill slash command: invoke with `$lochinbekdev-audit-backend`, or run
-`/skills` to browse. For live HTTP testing use an interactive session or `-s workspace-write`;
+Codex has no per-skill slash command. Plugin-bundled skills are namespaced by the plugin, so
+invoke with `$lochinbekdev-security:audit-backend`, or run `/skills` to browse. For live HTTP testing use an interactive session or `-s workspace-write`;
 under `codex exec -s read-only` every request fails with `Operation not permitted` and the
 audit reports zero executed workflows.
 
@@ -67,12 +69,12 @@ point an `AGENTS.md` at a skill's `SKILL.md`, or paste it into the conversation.
 
 | Skill | Invocation | Scope |
 |---|---|---|
-| `lochinbekdev-audit-backend` | user only | Orchestrator — runs a full, stack-agnostic backend audit and writes the single report. |
-| `lochinbekdev-audit-access-control` | model or user | Horizontal / vertical / cross-tenant authorization and field-permission tests with A/B accounts. |
-| `lochinbekdev-audit-api` | model or user | Routes, injection, SSRF, CORS, headers, and business-logic abuse. |
-| `lochinbekdev-audit-uploads` | model or user | Upload → storage → processing → serving, archive extraction (zip-slip), download authz. |
-| `lochinbekdev-audit-dependencies` | model or user | Dependencies, lockfiles, runtime versions, CI/CD, and secret exposure (read-only). |
-| `lochinbekdev-audit-microservices` | model or user | Inter-service dependency map and trust-boundary audit: s2s authn/authz, identity/tenant propagation, network exposure, SSRF pivots, queues, shared DBs. |
+| `audit-backend` | user only | Orchestrator — runs a full, stack-agnostic backend audit and writes the single report. |
+| `audit-access-control` | model or user | Horizontal / vertical / cross-tenant authorization and field-permission tests with A/B accounts. |
+| `audit-api` | model or user | Routes, injection, SSRF, CORS, headers, and business-logic abuse. |
+| `audit-uploads` | model or user | Upload → storage → processing → serving, archive extraction (zip-slip), download authz. |
+| `audit-dependencies` | model or user | Dependencies, lockfiles, runtime versions, CI/CD, and secret exposure (read-only). |
+| `audit-microservices` | model or user | Inter-service dependency map and trust-boundary audit: s2s authn/authz, identity/tenant propagation, network exposure, SSRF pivots, queues, shared DBs. |
 
 An audit sends live requests against a real system, so the orchestrator never starts on the
 model's own initiative: a human names it. The focused skills stay reachable by name or by
@@ -119,7 +121,7 @@ business-logic workflows** with real A/B accounts and matched control/test pairs
 - **SAST** (Semgrep, SonarQube): great for code patterns; blind to runtime authorization/tenancy.
 - **DAST** (StackHawk, NightVision, 42Crunch): great for crawl/fuzz; weak on business logic and
   per-object ownership. These skills test it deliberately, without enumeration or DoS.
-- **SCA** (Sonatype, Endor, JFrog): deep dependency graphs; `lochinbekdev-audit-dependencies` queries live OSV
+- **SCA** (Sonatype, Endor, JFrog): deep dependency graphs; `audit-dependencies` queries live OSV
   data and existing audit tools read-only, then confirms manually.
 
 Use a scanner for continuous, automated breadth; use these skills for a careful, authorized,
@@ -148,19 +150,19 @@ scripts/
   sync-docs.sh              # copy the shared standards into each skill's references/
 skills/
   security/
-    lochinbekdev-audit-backend/
+    audit-backend/
       SKILL.md
       agents/openai.yaml    # Codex / OpenAI interface descriptor
-    lochinbekdev-audit-access-control/{SKILL.md, agents/openai.yaml}
-    lochinbekdev-audit-api/{SKILL.md, agents/openai.yaml}
-    lochinbekdev-audit-uploads/{SKILL.md, agents/openai.yaml}
-    lochinbekdev-audit-dependencies/{SKILL.md, agents/openai.yaml}
-    lochinbekdev-audit-microservices/{SKILL.md, agents/openai.yaml}
+    audit-access-control/{SKILL.md, agents/openai.yaml}
+    audit-api/{SKILL.md, agents/openai.yaml}
+    audit-uploads/{SKILL.md, agents/openai.yaml}
+    audit-dependencies/{SKILL.md, agents/openai.yaml}
+    audit-microservices/{SKILL.md, agents/openai.yaml}
 ```
 
 ## Roadmap
 
-- **Shipped:** `lochinbekdev-audit-microservices` — inter-service dependency map and trust-boundary audit,
+- **Shipped:** `audit-microservices` — inter-service dependency map and trust-boundary audit,
   with the standard report and SARIF/JSON export.
 - **Next:** run the Codex plugin install end to end once the manifest is on the default
   branch, then record it in [`.agents/install-block.md`](./.agents/install-block.md).

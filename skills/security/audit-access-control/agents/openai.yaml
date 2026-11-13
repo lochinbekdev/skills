@@ -1,0 +1,4 @@
+interface:
+  display_name: "Audit: Access Control"
+  short_description: "IDOR, privilege and tenant isolation tests"
+  default_prompt: "Use $audit-access-control to test authorization"

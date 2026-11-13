@@ -1,0 +1,4 @@
+interface:
+  display_name: "Audit: Uploads"
+  short_description: "Upload, storage and serving pipeline audit"
+  default_prompt: "Use $audit-uploads to audit file uploads"

@@ -1,4 +1,0 @@
-interface:
-  display_name: "Audit: API Surface"
-  short_description: "Routes, injection, SSRF, CORS and logic tests"
-  default_prompt: "Use $lochinbekdev-audit-api to audit this API surface"

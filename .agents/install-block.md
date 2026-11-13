@@ -33,7 +33,7 @@ Updates itself by default. The five focused skills are model-invoked — "audit 
 this project" reaches them. The orchestrator is user-invoked, so name it:
 
 ```bash
-/lochinbekdev-security:lochinbekdev-audit-backend
+/lochinbekdev-security:audit-backend
 ```
 
 </canonical-block>
@@ -50,8 +50,8 @@ codex plugin add lochinbekdev-security@lochinbekdev
 ```
 
 Updates itself at startup. **Restart Codex after installing**, or the new skills stay
-undiscovered. Invoke with `$lochinbekdev-audit-backend`, or run `/skills` to browse; Codex has
-no per-skill slash command. Live HTTP testing needs a sandbox that permits network: under
+undiscovered. Codex has no per-skill slash command, and it namespaces plugin-bundled skills by
+the plugin, so invoke with `$lochinbekdev-security:audit-backend` or run `/skills` to browse. Live HTTP testing needs a sandbox that permits network: under
 `codex exec -s read-only` every request fails with `Operation not permitted`, and the audit
 correctly reports zero executed workflows.
 

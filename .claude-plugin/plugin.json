@@ -1,6 +1,6 @@
 {
   "name": "lochinbekdev-security",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Security-focused agent skills for backend auditing.",
   "author": {
     "name": "Lochinbek Abduvoitov",
@@ -17,11 +17,11 @@
     "owasp"
   ],
   "skills": [
-    "./skills/security/lochinbekdev-audit-backend",
-    "./skills/security/lochinbekdev-audit-access-control",
-    "./skills/security/lochinbekdev-audit-api",
-    "./skills/security/lochinbekdev-audit-uploads",
-    "./skills/security/lochinbekdev-audit-dependencies",
-    "./skills/security/lochinbekdev-audit-microservices"
+    "./skills/security/audit-backend",
+    "./skills/security/audit-access-control",
+    "./skills/security/audit-api",
+    "./skills/security/audit-uploads",
+    "./skills/security/audit-dependencies",
+    "./skills/security/audit-microservices"
   ]
 }

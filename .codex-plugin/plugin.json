@@ -1,6 +1,6 @@
 {
   "name": "lochinbekdev-security",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Small, composable security-audit skills for backends: an orchestrator plus focused skills for authorization, API surface, uploads, dependencies and service trust boundaries.",
   "author": {
     "name": "Lochinbek Abduvoitov",
@@ -25,9 +25,9 @@
     "developerName": "lochinbekdev",
     "category": "Developer Tools",
     "defaultPrompt": [
-      "Use $lochinbekdev-audit-backend to security-audit this backend",
-      "Use $lochinbekdev-audit-access-control to test authorization",
-      "Use $lochinbekdev-audit-dependencies to audit the supply chain"
+      "Use $audit-backend to security-audit this backend",
+      "Use $audit-access-control to test authorization",
+      "Use $audit-dependencies to audit the supply chain"
     ],
     "brandColor": "#B91C1C"
   }

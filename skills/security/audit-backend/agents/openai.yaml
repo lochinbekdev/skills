@@ -1,0 +1,9 @@
+interface:
+  display_name: "Audit: Backend"
+  short_description: "Authorized, evidence-based backend audit"
+  default_prompt: "Use $audit-backend to security-audit this backend"
+policy:
+  # User-invoked: an audit sends live requests and needs explicit authorization,
+  # so the model must not start one on its own initiative. Pairs with
+  # `disable-model-invocation: true` in SKILL.md for Claude Code.
+  allow_implicit_invocation: false

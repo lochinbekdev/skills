@@ -72,11 +72,11 @@ The inventory exists to prove coverage, not to fill the report. It is summarised
 The sections above are written for a full runtime authorization/workflow audit. A focused or
 static-only run keeps the same skeleton but **marks inapplicable sections `not-applicable`
 with a one-line reason** rather than padding them, and **adds the artifact its skill produces**:
-- `lochinbekdev-audit-dependencies`: a dependency/CVE table and lockfile status; sections 4 (workflow
+- `audit-dependencies`: a dependency/CVE table and lockfile status; sections 4 (workflow
   matrix) and the A/B handoff parts of 2 are usually `not-applicable`.
-- `lochinbekdev-audit-microservices`: a service-dependency map and a per-edge trust-boundary matrix in
+- `audit-microservices`: a service-dependency map and a per-edge trust-boundary matrix in
   section 3, and cross-service chains in section 6.
-- `lochinbekdev-audit-uploads` / `lochinbekdev-audit-api`: the endpoint/pipeline inventory in section 3.
+- `audit-uploads` / `audit-api`: the endpoint/pipeline inventory in section 3.
 - A **static-only** run (no env/accounts, per `intake.md`) keeps section 2's unanswered items
   as the Q-round, marks runtime rows `blocked`, and states that static coverage is complete.
 Never delete a section silently; `not-applicable` with a reason preserves the coverage contract.

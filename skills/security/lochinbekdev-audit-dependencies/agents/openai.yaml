@@ -1,4 +1,0 @@
-interface:
-  display_name: "Audit: Dependencies"
-  short_description: "Dependency, lockfile and CI supply-chain audit"
-  default_prompt: "Use $lochinbekdev-audit-dependencies to audit the supply chain"

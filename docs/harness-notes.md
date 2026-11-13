@@ -44,8 +44,18 @@ says so.
 
 ## Invocation differs
 
-Claude Code exposes a per-skill slash command and namespaces it by plugin
-(`/lochinbekdev-security:lochinbekdev-audit-backend`). Codex has no per-skill slash command and
-does not namespace plugin-bundled skills: the token is the bare `name` from `SKILL.md`, invoked
-as `$lochinbekdev-audit-backend` or picked from `/skills`. `:` and `/` are illegal in that
-field, which is why the vendor prefix is part of the name.
+Claude Code exposes a per-skill slash command, namespaced by plugin:
+`/lochinbekdev-security:audit-backend`. Codex has no per-skill slash command; it uses `$name`
+or the `/skills` picker.
+
+**Codex namespaces plugin-bundled skills too**, as `$<plugin>:<skill>` —
+`$lochinbekdev-security:audit-api`. This is not in OpenAI's public docs, and the opposite was
+inferred here on 2026-11-13 from the shipped first-party plugins, whose skill `name` fields
+carry hand-written prefixes (`figma-spec`, `figma-use`). That inference was wrong: observing
+the real picker showed the plugin prefix already applied. The skills briefly shipped as
+`lochinbekdev-audit-*` and appeared as `$lochinbekdev-security:lochinbekdev-audit-api`, so the
+names went back to bare `audit-*`.
+
+Consequence: the vendor prefix belongs to the plugin, not the skill name. Installed outside a
+plugin — the `scripts/link-skills.sh` symlink route — a skill is reached by its bare name
+(`$audit-api`, `/audit-api`), since there is no plugin to namespace it.

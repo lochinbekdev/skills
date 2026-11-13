@@ -46,7 +46,7 @@ before testing the changed part.
 
 ## When to skip the interview
 A skill that needs no live access or test data — it only reads the repo already in scope —
-runs directly without phases 2–4 (e.g. `lochinbekdev-audit-dependencies`). It still respects the
+runs directly without phases 2–4 (e.g. `audit-dependencies`). It still respects the
 write boundary and reports blocked items where confirmation is genuinely required.
 
 ## Static-only engagement (no live env / no accounts / no human)
