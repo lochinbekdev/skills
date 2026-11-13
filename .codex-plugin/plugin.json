@@ -1,0 +1,34 @@
+{
+  "name": "lochinbekdev-security",
+  "version": "0.2.0",
+  "description": "Small, composable security-audit skills for backends: an orchestrator plus focused skills for authorization, API surface, uploads, dependencies and service trust boundaries.",
+  "author": {
+    "name": "Lochinbek Abduvoitov",
+    "url": "https://github.com/lochinbekdev"
+  },
+  "homepage": "https://github.com/lochinbekdev/skills",
+  "repository": "https://github.com/lochinbekdev/skills",
+  "license": "MIT",
+  "keywords": [
+    "security",
+    "audit",
+    "pentest",
+    "authorization",
+    "owasp",
+    "supply-chain"
+  ],
+  "skills": "./skills/security/",
+  "interface": {
+    "displayName": "Security Audits",
+    "shortDescription": "Evidence-based backend security audits",
+    "longDescription": "Six read-only security skills that audit an authorized backend and produce one reproducible report: a backend orchestrator plus focused skills for access control, API surface, file uploads, dependency supply chain, and microservice trust boundaries. Every skill grills for scope before it touches a live system, writes nothing but the report, and marks any finding it could not confirm at runtime.",
+    "developerName": "lochinbekdev",
+    "category": "Developer Tools",
+    "defaultPrompt": [
+      "Use $lochinbekdev-audit-backend to security-audit this backend",
+      "Use $lochinbekdev-audit-access-control to test authorization",
+      "Use $lochinbekdev-audit-dependencies to audit the supply chain"
+    ],
+    "brandColor": "#B91C1C"
+  }
+}

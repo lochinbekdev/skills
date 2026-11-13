@@ -18,7 +18,11 @@
         "authorization",
         "owasp",
         "supply-chain"
-      ]
+      ],
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_USE"
+      }
     }
   ]
 }
